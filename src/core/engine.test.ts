@@ -123,3 +123,51 @@ describe('planning and streaks', () => {
     expect(readiness(PRIMARY_SPEC, {})).toEqual({ value: 0, coverage: 0 });
   });
 });
+
+describe('preparation modes and programs', () => {
+  it('B+ mode ignores codes above 65%, A+ keeps maintenance for mastered codes', async () => {
+    const { codePriority } = await import('./engine');
+    const { PRIMARY_SPEC } = await import('../content/primary/spec');
+    const stats = { '3.1.1': { attempts: 5, correct: 4, ewma: 0.7, lastDay: '2026-11-01' }, '2.1.1': { attempts: 5, correct: 1, ewma: 0.2, lastDay: '2026-11-01' } };
+    const b = codePriority(PRIMARY_SPEC, stats, 'bplus');
+    expect(b.find((x) => x.code === '3.1.1')).toBeUndefined();
+    expect(b[0].code).toBe('1.4.1'); // 3 tasks × gap 0.15 outweighs 1 task × 0.45
+    const a = codePriority(PRIMARY_SPEC, stats, 'aplus');
+    expect(a.find((x) => x.code === '3.1.1')!.score).toBeGreaterThan(0);
+    expect(a.find((x) => x.code === '2.1.1')!.score).toBeCloseTo(0.65);
+  });
+
+  it('dailyPlan gives review a bigger share after missed days', () => {
+    const normal = dailyPlan(60, 30, { 1: 0.5, 2: 0.5, 3: 0.5 });
+    const catchUp = dailyPlan(60, 30, { 1: 0.5, 2: 0.5, 3: 0.5 }, { catchUp: true });
+    expect(catchUp[0].minutes).toBeGreaterThan(normal[0].minutes);
+    expect(catchUp.reduce((s, b) => s + b.minutes, 0)).toBe(60);
+  });
+
+  it('programStatus follows the phases and rebuilds after missed days', async () => {
+    const { programStatus } = await import('./engine');
+    const start = '2026-11-01';
+    const days = (n: number) => Array.from({ length: n }, (_, i) => addDays(start, i));
+    // studied every day: day 5 of 30 is foundation
+    expect(programStatus({ length: 30, start }, addDays(start, 4), days(4)).phase).toBe('foundation');
+    // missed everything until day 25: calendar forces mock phase and marks the plan rebuilt
+    const late = programStatus({ length: 30, start }, addDays(start, 24), []);
+    expect(late.phase).toBe('mock');
+    expect(late.rebuilt).toBe(true);
+    expect(late.missed).toBe(24);
+    // last 10% is always the final review
+    expect(programStatus({ length: 30, start }, addDays(start, 28), days(28)).phase).toBe('final');
+    expect(programStatus({ length: 7, start }, addDays(start, 9), days(7)).finished).toBe(true);
+  });
+
+  it('compareReports shows deltas per section and per code', async () => {
+    const { compareReports } = await import('./engine');
+    const prev = { correct: 40, total: 90, percent: 44, bySection: { 1: { correct: 10, total: 30 } }, byType: {}, byCode: { '1.1.1': { correct: 0, total: 1 }, '1.1.2': { correct: 1, total: 1 } } };
+    const cur = { correct: 50, total: 90, percent: 56, bySection: { 1: { correct: 20, total: 30 } }, byType: {}, byCode: { '1.1.1': { correct: 1, total: 1 }, '1.1.2': { correct: 0, total: 1 } } };
+    const d = compareReports(prev, cur);
+    expect(d.correct).toBe(10);
+    expect(d.bySection[1]).toBe(33);
+    expect(d.improved).toEqual(['1.1.1']);
+    expect(d.regressed).toEqual(['1.1.2']);
+  });
+});

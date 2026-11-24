@@ -16,6 +16,23 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Launch screen shown until the app has loaded its local data (replaced by React). -->
+      <div id="splash" aria-hidden="true">
+        <svg width="84" height="84" viewBox="0 0 64 64"><defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2747a8"/><stop offset="1" stop-color="#15296b"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(#sg)"/><circle class="r" cx="32" cy="32" r="17.5" fill="none" stroke="#10b981" stroke-width="5.5" stroke-linecap="round" stroke-dasharray="110"/><rect x="29.2" y="21.5" width="5.6" height="21" rx="2.8" fill="#fff"/><rect x="21.5" y="29.2" width="21" height="5.6" rx="2.8" fill="#fff"/><circle class="d" cx="46.5" cy="17.5" r="4.6" fill="#eab308"/></svg>
+        <div class="w">Milliy <b>A+</b> Primary</div>
+      </div>
+    <style>
+      #splash { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: #f4f6fa; font: 600 20px/1.2 system-ui, -apple-system, sans-serif; color: #111827; z-index: 100; transition: opacity .35s ease; }
+      #splash b { color: #059669; }
+      #splash .r { animation: sr 1s cubic-bezier(.6,0,.2,1) both; }
+      #splash .d { transform-origin: 46.5px 17.5px; animation: sd .45s .75s cubic-bezier(.2,.9,.3,1.6) both; }
+      #splash .w { animation: sw .5s .3s ease both; }
+      @keyframes sr { from { stroke-dashoffset: 110; } to { stroke-dashoffset: 0; } }
+      @keyframes sd { from { transform: scale(0); } to { transform: none; } }
+      @keyframes sw { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+      @media (prefers-color-scheme: dark) { #splash { background: #0d111c; color: #ecf0f7; } #splash b { color: #34d399; } }
+      @media (prefers-reduced-motion: reduce) { #splash * { animation: none !important; } }
+    </style>
     <noscript>Milliy A+ Primary requires JavaScript.</noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>

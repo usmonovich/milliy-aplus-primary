@@ -1,16 +1,34 @@
 // Exams: mock list, strict exam runner (absolute deadline, resume), report, mistakes.
 import { useEffect, useMemo, useState } from 'react';
-import { Bookmark, CheckCircle2, ChevronLeft, ChevronRight, Clock, FileText, Flag, Grid3x3, History, Infinity as Inf, Repeat, Timer, Zap } from 'lucide-react';
-import { formatClock, remainingMs, taskCount } from '../core/engine';
+import { ArrowDownRight, ArrowUpRight, Bookmark, CheckCircle2, ChevronLeft, ChevronRight, Clock, Crosshair, FileText, Flag, Grid3x3, History, Infinity as Inf, Repeat, Timer, Zap } from 'lucide-react';
+import { compareReports, formatClock, remainingMs, taskCount } from '../core/engine';
 import { setState, today, useStore, type Attempt } from '../core/store';
 import type { Question, Response } from '../core/types';
 import { BLOCKS, SPEC, TARGET_VARIANTS } from '../content/primary';
 import { Bar, Button, Card, Chip, Screen, SectionTitle, Sheet, navigate, useLang } from '../ui/kit';
-import { dueReview, finishExam, getQ, isAnswered, startExam, variantsReady } from '../ui/logic';
+import { dueReview, finishExam, getQ, isAnswered, previousAttempt, startExam, variantsReady } from '../ui/logic';
+import { haptic } from '../ui/fx';
 import { Feedback, PracticeSession, QuestionView, TypeBadge } from '../ui/practice';
+
+function useAttemptLabel() {
+  const { t } = useLang();
+  return (a: Attempt) => {
+    switch (a.kind) {
+      case 'full': case 'untimed': return `${t('variant')} ${a.variant}${a.kind === 'untimed' ? ` · ${t('modeUntimed')}` : ''}`;
+      case 'section': return `${t('section')} ${a.section} · ${t('variant')} ${a.variant ?? 1}`;
+      case 'checkpoint': return `${t('checkpoint')} · ${a.level === 'F' ? 'Foundation' : a.level}`;
+      case 'weak': return t('weakTopics');
+      case 'express': return t('modeExpress');
+      case 'sit': return t('modeSit');
+      case 'open': return t('modeOpen');
+      default: return t('modeHard');
+    }
+  };
+}
 
 export function ExamsHome() {
   const { t, ex, u } = useLang();
+  const attemptLabel = useAttemptLabel();
   const attempts = useStore((s) => s.attempts);
   const active = useStore((s) => s.activeExam);
   const ready = variantsReady(ex);
@@ -57,6 +75,7 @@ export function ExamsHome() {
         <Card onClick={() => begin('sit')}><div className="font-semibold">{t('modeSit')}</div><div className="text-xs text-ink-soft">V-Y-1</div></Card>
         <Card onClick={() => begin('open')}><div className="font-semibold">{t('modeOpen')}</div><div className="text-xs text-ink-soft">O-1</div></Card>
         <Card onClick={() => begin('hard')}><div className="font-semibold">{t('modeHard')}</div></Card>
+        <Card onClick={() => begin('weak')}><div className="flex items-center gap-2 font-semibold"><Crosshair size={18} className="text-danger" />{t('weakTopics')}</div><div className="text-xs text-ink-soft">{t('weakHint')}</div></Card>
       </div>
 
       <SectionTitle>{t('mistakes')}</SectionTitle>
@@ -69,7 +88,7 @@ export function ExamsHome() {
           <Card key={a.id} onClick={() => navigate(`exam/report/${a.id}`)}>
             <div className="flex items-center gap-3">
               <FileText size={20} className="text-ink-soft" />
-              <div className="min-w-0 flex-1"><div className="font-medium">{a.kind === 'full' || a.kind === 'untimed' ? `${t('variant')} ${a.variant}` : a.kind === 'section' ? `${t('section')} ${a.section}` : a.kind}</div>
+              <div className="min-w-0 flex-1"><div className="font-medium">{attemptLabel(a)}</div>
                 <div className="text-xs text-ink-soft">{new Date(a.finishedAt ?? a.startedAt).toLocaleString()}</div></div>
               <b>{a.report?.correct}/{a.report?.total}</b>
             </div>
@@ -114,7 +133,7 @@ export function ExamRunner() {
   qs.reduce((n, x) => { starts.push(n); return n + taskCount(x); }, 1);
   const label = (i: number) => (taskCount(qs[i]) > 1 ? `${starts[i]}–${starts[i] + taskCount(qs[i]) - 1}` : `${starts[i]}`);
   const unanswered = qs.filter((x) => !isAnswered(x, a.answers[x.id])).length;
-  const finish = () => { const id = finishExam(); if (id) navigate(`exam/report/${id}`); };
+  const finish = () => { const id = finishExam(); haptic('success'); if (id) navigate(`exam/report/${id}`); };
   const sectionsInExam = [...new Set(qs.map((x) => x.section))];
 
   return (
@@ -183,18 +202,40 @@ export function ExamRunner() {
 
 export function ExamReport({ id }: { id: string }) {
   const { t, u } = useLang();
+  const attemptLabel = useAttemptLabel();
   const a = useStore((s) => s.attempts.find((x) => x.id === id));
   const [review, setReview] = useState(false);
   if (!a?.report) return <Screen title={t('report')} back="exams"><Card>—</Card></Screen>;
   const r = a.report;
   const qs = a.qids.map(getQ).filter((q): q is Question => !!q);
+  const prev = previousAttempt(a);
+  const diff = prev?.report ? compareReports(prev.report, r) : null;
+  const delta = (n: number, suffix = '') => (
+    <span className={`inline-flex items-center gap-0.5 font-bold ${n > 0 ? 'text-emerald' : n < 0 ? 'text-danger' : 'text-ink-soft'}`}>
+      {n > 0 ? <ArrowUpRight size={16} /> : n < 0 ? <ArrowDownRight size={16} /> : null}{n > 0 ? '+' : ''}{n}{suffix}
+    </span>
+  );
   return (
-    <Screen title={t('report')} back="exams">
+    <Screen title={attemptLabel(a)} back="exams">
       {a.timedOut && <Card tone="gold" className="mb-3 text-sm">{t('timeUp')}</Card>}
       <Card tone="brand" className="text-center">
         <div className="text-5xl font-bold">{r.correct}<span className="text-2xl opacity-70">/{r.total}</span></div>
         <div className="mt-1 opacity-80">{r.total === 90 ? t('correctOf') : t('correct')} · {r.percent}%</div>
       </Card>
+      {diff && (
+        <Card className="mt-3">
+          <div className="mb-2 flex items-center justify-between gap-2"><span className="font-semibold">{t('compareTitle')}</span>{delta(diff.correct)}</div>
+          <div className="grid grid-cols-3 gap-2 text-center text-sm">
+            {Object.entries(diff.bySection).map(([sec, d]) => <div key={sec} className="rounded-xl bg-surface-2 p-2"><div className="text-xs text-ink-soft">{t('section')} {sec}</div>{delta(d, '%')}</div>)}
+          </div>
+          {(diff.improved.length > 0 || diff.regressed.length > 0) && (
+            <div className="mt-3 space-y-1 text-xs">
+              {diff.improved.length > 0 && <p><b className="text-emerald">{t('improvedCodes')}:</b> {diff.improved.join(', ')}</p>}
+              {diff.regressed.length > 0 && <p><b className="text-danger">{t('regressedCodes')}:</b> {diff.regressed.join(', ')}</p>}
+            </div>
+          )}
+        </Card>
+      )}
       <Card className="mt-3 text-sm leading-relaxed text-ink-soft">{t('notOfficial')}</Card>
 
       <SectionTitle>{t('bySection')}</SectionTitle>

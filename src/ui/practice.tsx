@@ -1,10 +1,12 @@
 // Question rendering for all four official task types + practice sessions.
 import { useMemo, useRef, useState } from 'react';
-import { BookOpen, Check, RefreshCw, Sparkles, X } from 'lucide-react';
+import { BookOpen, Bug, Check, Flag, RefreshCw, Sparkles, X } from 'lucide-react';
 import { gradeQuestion, mulberry32, shuffle, taskCount } from '../core/engine';
 import type { Question, Response } from '../core/types';
 import { BLOCKS, sourceById } from '../content/primary';
 import { Bar, Button, Card, navigate, useLang } from './kit';
+import { setState, today, useStore } from '../core/store';
+import { haptic } from './fx';
 import { checkAchievements, generated, gradeAndRecord, isAnswered, pickPractice } from './logic';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -94,6 +96,7 @@ export function QuestionView({ q, response, onChange, reveal, shuffleSeed }: {
 
 export function Feedback({ q, response }: { q: Question; response?: Response }) {
   const { c, t, ex } = useLang();
+  const reviewer = useStore((s) => s.settings.reviewer);
   const got = gradeQuestion(q, response, ex), total = taskCount(q);
   const ok = got === total;
   const src = q.sourceIds.map((id) => sourceById(id)?.title).filter(Boolean).slice(0, 2);
@@ -111,6 +114,27 @@ export function Feedback({ q, response }: { q: Question; response?: Response }) 
       {q.pitfalls && <p className="mt-2 text-sm text-ink-soft">{c(q.pitfalls)}</p>}
       <p className="mt-3 text-xs text-ink-soft">{t('competency')}: {c(q.competency)} · {q.code}</p>
       {src.length > 0 && <p className="mt-1 text-xs text-ink-soft">{t('source')}: {src.join('; ')}</p>}
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <button type="button" onClick={() => navigate(`profile/report/${encodeURIComponent(q.id)}`)} className="inline-flex min-h-[2.5rem] items-center gap-1.5 rounded-lg px-2 text-xs font-medium text-ink-soft hover:bg-surface">
+          <Bug size={14} />{t('reportError')}
+        </button>
+        <span className="font-mono text-[11px] text-ink-soft">{q.id}</span>
+      </div>
+      {reviewer && <ReviewBar qid={q.id} status={t(`st_${q.status}`)} />}
+    </div>
+  );
+}
+
+/** Expert review controls (shown only in reviewer mode). Marks stay local and are exported from Settings. */
+function ReviewBar({ qid, status }: { qid: string; status: string }) {
+  const { t } = useLang();
+  const mark = useStore((s) => s.reviews[qid]);
+  const set = (st: 'ok' | 'issue') => setState((s) => ({ ...s, reviews: { ...s.reviews, [qid]: { status: st, at: today() } } }), true);
+  return (
+    <div className="mt-2 flex flex-wrap items-center gap-2 rounded-xl border border-dashed border-line p-2 text-xs">
+      <span className="flex-1">{status}</span>
+      <button type="button" onClick={() => set('ok')} aria-pressed={mark?.status === 'ok'} className={`inline-flex min-h-[2.5rem] items-center gap-1 rounded-lg px-3 font-semibold ${mark?.status === 'ok' ? 'bg-emerald text-white' : 'bg-surface'}`}><Check size={14} />{t('reviewOk')}</button>
+      <button type="button" onClick={() => set('issue')} aria-pressed={mark?.status === 'issue'} className={`inline-flex min-h-[2.5rem] items-center gap-1 rounded-lg px-3 font-semibold ${mark?.status === 'issue' ? 'bg-danger text-white' : 'bg-surface'}`}><Flag size={14} />{t('reviewIssue')}</button>
     </div>
   );
 }
@@ -135,6 +159,7 @@ export function PracticeSession({ items: initial, mode = 'learn', title, onDone,
   const submit = () => {
     const { got, total } = gradeAndRecord(q, resp[q.id], ex, Date.now() - started.current);
     setScore((s) => ({ correct: s.correct + (got === total ? 1 : 0), total: s.total + 1 }));
+    if (mode === 'learn') haptic(got === total ? 'success' : 'error');
     if (mode === 'learn') setRevealed(true);
     else advance();
   };

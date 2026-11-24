@@ -1,9 +1,9 @@
 // Home: today's plan, continue learning, exam countdown, reviews, streak, readiness.
 import { useState } from 'react';
-import { AlertTriangle, BookOpen, CalendarDays, CheckCircle2, ChevronRight, Flame, Info, Play, Repeat, Target, Timer } from 'lucide-react';
-import { planForDate, readiness, streak } from '../core/engine';
+import { AlertTriangle, BookOpen, CalendarCheck, CalendarDays, CheckCircle2, ChevronRight, ClipboardCheck, Flame, Info, Play, Repeat, Rocket, Timer } from 'lucide-react';
+import { missedSinceLast, planForDate, programStatus, readiness, streak } from '../core/engine';
 import { xpLevel } from '../core/gamification';
-import { today, useStore } from '../core/store';
+import { setState, today, useStore } from '../core/store';
 import { SPEC } from '../content/primary';
 import { Bar, Card, Ring, Screen, SectionTitle, Sheet, navigate, useLang } from '../ui/kit';
 import { dueCount, nextLesson, todayPlan } from '../ui/logic';
@@ -30,17 +30,21 @@ export function Home() {
   const lvl = xpLevel(s.xp);
   const next = nextLesson(ex);
   const due = dueCount();
+  const missed = missedSinceLast(s.activeDays, d);
+  const prog = s.program ? programStatus(s.program, d, s.activeDays) : null;
+  const quizToday = s.quizzes[d];
 
   const launch = (b: (typeof plan)[number]) => {
     if (b.kind === 'review') navigate('mistakes/review');
-    else if (b.kind === 'quiz') navigate(`practice/quiz/${b.key}`);
+    else if (b.kind === 'quiz') navigate('quiz');
+    else if (b.kind === 'exam') navigate('exams');
     else if (b.section) {
       const l = nextLesson(ex, b.section);
       navigate(l ? `lesson/${l.block}` : `practice/section/${b.section}/${b.key}`);
     }
   };
   const label = (b: (typeof plan)[number]) =>
-    b.kind === 'review' ? t('planReview') : b.kind === 'quiz' ? t('planQuiz') : u(SPEC.sections[b.section! - 1].title);
+    b.kind === 'review' ? t('planReview') : b.kind === 'quiz' ? t('dailyQuiz') : b.kind === 'exam' ? t('planExam') : u(SPEC.sections[b.section! - 1].title);
 
   return (
     <Screen>
@@ -60,12 +64,28 @@ export function Home() {
         </Card>
       )}
 
+      {missed > 0 && s.seenMissed !== d && (
+        <Card tone="gold" className="mt-4">
+          <div className="flex gap-3 text-sm leading-relaxed"><Repeat className="shrink-0 text-gold" size={20} /><span className="flex-1">{prog?.rebuilt ? t('programRebuilt', { n: prog.missed, phase: t(`phase_${prog.phase}`) }) : t('welcomeBack', { n: missed })}</span></div>
+          <button type="button" className="mt-2 min-h-[2.5rem] text-sm font-semibold text-brand" onClick={() => setState((x) => ({ ...x, seenMissed: d }))}>{t('close')}</button>
+        </Card>
+      )}
+
+      {prog && !prog.finished && (
+        <Card className="mt-4" onClick={() => navigate('plan')}>
+          <div className="flex items-center gap-3"><Rocket className="shrink-0 text-brand" />
+            <div className="min-w-0 flex-1"><div className="text-xs text-ink-soft">{t('programDay', { d: prog.day, n: prog.total })}</div><div className="font-semibold">{t(`phase_${prog.phase}`)}</div></div>
+            <span className="rounded-lg bg-brand-soft px-2 py-1 text-xs font-bold text-brand">{t(`prep_${s.profile.prep}`)}</span>
+          </div>
+        </Card>
+      )}
+
       {pf.tight && <Card tone="gold" className="mt-4"><div className="flex gap-3 text-sm"><AlertTriangle className="shrink-0 text-gold" size={20} />{t('tightWarn')}</div></Card>}
 
       <div className="mt-4 grid gap-2">
         {plan.map((b) => {
-          const done = doneKeys.includes(b.key);
-          const Icon = b.kind === 'review' ? Repeat : b.kind === 'quiz' ? Target : BookOpen;
+          const done = doneKeys.includes(b.key) || (b.kind === 'quiz' && !!quizToday);
+          const Icon = b.kind === 'review' ? Repeat : b.kind === 'quiz' ? CalendarCheck : b.kind === 'exam' ? ClipboardCheck : BookOpen;
           return (
             <button key={b.key} type="button" onClick={() => launch(b)}
               className={`flex min-h-[4rem] items-center gap-3 rounded-2xl border p-3 text-left transition active:scale-[.99] ${done ? 'border-emerald/40 bg-emerald-soft' : 'border-line bg-surface hover:shadow-md'}`}>

@@ -386,16 +386,24 @@ export interface PlanBlock {
   minutes: number;
 }
 
-/** Splits the daily time budget: review first, the rest by section weakness. */
-export function dailyPlan(minutes: number, dueCount: number, sectionAccuracy: Record<number, number>): PlanBlock[] {
+/** Preparation target: B+ focuses on high-yield gaps, A+ on full mastery and hard items. */
+export type PrepMode = 'standard' | 'bplus' | 'aplus';
+export const MODE_TARGET: Record<PrepMode, number> = { standard: 0.75, bplus: 0.65, aplus: 0.85 };
+
+/** Splits the daily time budget: review first, the rest by section weakness.
+ * `catchUp` (after missed days) gives review a larger share; the mode target
+ * decides when a section counts as "good enough" and only gets maintenance time. */
+export function dailyPlan(minutes: number, dueCount: number, sectionAccuracy: Record<number, number>, opts: { catchUp?: boolean; mode?: PrepMode } = {}): PlanBlock[] {
   const blocks: PlanBlock[] = [];
-  const review = dueCount > 0 ? Math.min(Math.round(minutes * 0.2), Math.max(5, dueCount)) : 0;
+  const share = opts.catchUp ? 0.35 : 0.2;
+  const review = dueCount > 0 ? Math.min(Math.round(minutes * share), Math.max(5, dueCount)) : 0;
   const quiz = minutes >= 30 ? 5 : 0;
   const rest = Math.max(0, minutes - review - quiz);
   if (review) blocks.push({ kind: 'review', minutes: review });
-  // weakness weight: (1 - accuracy) + 0.2 floor so every section is practiced
+  const target = MODE_TARGET[opts.mode ?? 'standard'];
+  // weakness weight: gap to the target + 0.2 floor so every section is practiced
   const secs = [1, 2, 3];
-  const weights = secs.map((s) => 1 - (sectionAccuracy[s] ?? 0.5) + 0.2);
+  const weights = secs.map((s) => Math.max(0, target - (sectionAccuracy[s] ?? 0.5)) + 0.2);
   const tw = weights.reduce((a, b) => a + b, 0);
   let assigned = 0;
   secs.forEach((s, i) => {
@@ -405,6 +413,112 @@ export function dailyPlan(minutes: number, dueCount: number, sectionAccuracy: Re
   });
   if (quiz) blocks.push({ kind: 'quiz', minutes: quiz });
   return blocks;
+}
+
+/**
+ * Ranks spec codes for personal practice. Score = task weight × gap to the
+ * mode target. Unpractised codes are assumed at 0.5. In A+ mode mastered codes
+ * keep a small maintenance score; in B+ mode codes above target drop out.
+ */
+export function codePriority(spec: ExamSpec, stats: Record<string, CodeStat>, mode: PrepMode = 'standard'): { code: string; score: number }[] {
+  const target = MODE_TARGET[mode];
+  return spec.codes
+    .map((c) => {
+      const acc = stats[c.code]?.attempts ? stats[c.code].ewma : 0.5;
+      const gap = Math.max(0, target - acc);
+      const score = c.count * (gap > 0 ? gap : mode === 'aplus' ? 0.02 : 0);
+      return { code: c.code, score };
+    })
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score || a.code.localeCompare(b.code, undefined, { numeric: true }));
+}
+
+/* ------------------------------------------------------------------ */
+/* Intensive programs (7/14/30/60/90 days) with automatic re-planning  */
+/* ------------------------------------------------------------------ */
+
+export type ProgramLength = 7 | 14 | 30 | 60 | 90;
+export type Phase = 'foundation' | 'practice' | 'mock' | 'final';
+const PHASES: Phase[] = ['foundation', 'practice', 'mock', 'final'];
+const PHASE_SHARE = [0.4, 0.3, 0.2, 0.1];
+export const PROGRAM_MINUTES: Record<ProgramLength, number> = { 7: 120, 14: 90, 30: 75, 60: 60, 90: 45 };
+
+export interface ProgramStatus {
+  day: number; // 1-based calendar day of the program
+  total: number;
+  daysLeft: number; // including today
+  missed: number; // calendar days without activity since the start (before today)
+  activeDone: number; // active days before today
+  phase: Phase;
+  mockToday: boolean;
+  /** True when missed days forced the plan to compress or skip ahead. */
+  rebuilt: boolean;
+  finished: boolean;
+}
+
+/**
+ * Where the learner is in a program. Progress is measured in days actually
+ * studied, not calendar days; when days were missed, the remaining phases are
+ * squeezed into the remaining calendar so mock exams and the final review
+ * still happen before the end (the "rebuilt" plan).
+ */
+export function programStatus(p: { length: ProgramLength; start: string }, today: string, activeDays: string[]): ProgramStatus {
+  const total = p.length;
+  const elapsed = Math.max(0, daysBetween(p.start, today));
+  const active = new Set(activeDays);
+  let activeDone = 0;
+  for (let i = 0; i < Math.min(elapsed, total); i++) if (active.has(addDays(p.start, i))) activeDone++;
+  const missed = Math.min(elapsed, total) - activeDone;
+  const daysLeft = Math.max(0, total - elapsed);
+  const finished = daysLeft === 0;
+  // phase by work done
+  let cum = 0, byWork = PHASES.length - 1;
+  for (let i = 0; i < PHASES.length; i++) { cum += PHASE_SHARE[i] * total; if (activeDone < cum - 1e-9) { byWork = i; break; } }
+  // phase by calendar: the last 10% is always the final review, the 20% before it mock exams
+  const left = daysLeft / total;
+  const byTime = left <= PHASE_SHARE[3] + 1e-9 ? 3 : left <= PHASE_SHARE[3] + PHASE_SHARE[2] + 1e-9 ? 2 : 0;
+  const idx = Math.max(byWork, byTime);
+  const phase = PHASES[idx];
+  const rebuilt = missed > 0 && byTime > byWork;
+  const day = Math.min(total, elapsed + 1);
+  const mockEvery = total <= 14 ? 2 : 3;
+  const mockToday = !finished && ((phase === 'mock' && (day % mockEvery === 0 || daysLeft <= 2)) || (phase === 'practice' && total >= 30 && day % 7 === 0));
+  return { day, total, daysLeft, missed, activeDone, phase, mockToday, rebuilt, finished };
+}
+
+/** Days since the last active day minus one (0 when active yesterday or today). */
+export function missedSinceLast(activeDays: string[], today: string): number {
+  const past = activeDays.filter((d) => d < today).sort();
+  if (!past.length) return 0;
+  return Math.max(0, daysBetween(past[past.length - 1], today) - 1);
+}
+
+/* ------------------------------------------------------------------ */
+/* Comparing exam attempts                                             */
+/* ------------------------------------------------------------------ */
+
+export interface ReportDiff {
+  correct: number; // delta in correct answers
+  percent: number;
+  bySection: Record<number, number>; // delta in percentage points
+  improved: string[]; // codes wrong before, right now
+  regressed: string[]; // codes right before, wrong now
+}
+
+export function compareReports(prev: ExamReport, cur: ExamReport): ReportDiff {
+  const pct = (v?: { correct: number; total: number }) => (v && v.total ? (v.correct / v.total) * 100 : 0);
+  const bySection: Record<number, number> = {};
+  for (const k of new Set([...Object.keys(prev.bySection), ...Object.keys(cur.bySection)].map(Number))) {
+    bySection[k] = Math.round(pct(cur.bySection[k]) - pct(prev.bySection[k]));
+  }
+  const improved: string[] = [], regressed: string[] = [];
+  for (const code of Object.keys(cur.byCode)) {
+    const a = prev.byCode[code], b = cur.byCode[code];
+    if (!a) continue;
+    if (b.correct > a.correct) improved.push(code);
+    else if (b.correct < a.correct) regressed.push(code);
+  }
+  return { correct: cur.correct - prev.correct, percent: cur.percent - prev.percent, bySection, improved, regressed };
 }
 
 export type PlanLength = 7 | 14 | 30 | 60 | 90 | 0;

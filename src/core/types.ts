@@ -150,6 +150,10 @@ export interface ScenarioOption {
   consequence: L;
   reasoning: L;
   next?: string;
+  /** What the class visibly does after this decision (Teacher Simulator). */
+  reaction?: L;
+  /** Change of class engagement / understanding (−30..30); derived from fit if absent. */
+  effects?: { engagement: number; understanding: number };
 }
 
 export interface ScenarioStep {

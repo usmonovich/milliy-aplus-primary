@@ -1,6 +1,7 @@
 // App-level orchestration on top of the Core Engine and the content package.
 import {
-  assembleVariant, availableVariants, buildReport, dailyPlan, daysBetween, dueCards, gradeQuestion, mulberry32, shuffle, taskCount, type PlanBlock,
+  assembleVariant, availableVariants, buildReport, codePriority, dailyPlan, daysBetween, dueCards, gradeQuestion, missedSinceLast, mulberry32,
+  programStatus, shuffle, taskCount, type PlanBlock,
 } from '../core/engine';
 import { newAchievements } from '../core/gamification';
 import { getState, recordAnswer, setState, today, type Attempt } from '../core/store';
@@ -35,11 +36,14 @@ export function generated(code: string): Question | null {
 }
 
 /** Adaptive selection: weakest and due skills first, interleaved across codes. */
-export function pickPractice(ex: Locale, opts: { block?: string; section?: number; n: number; types?: string[]; minDifficulty?: number }): Question[] {
+export function pickPractice(ex: Locale, opts: { block?: string; section?: number; n: number; types?: string[]; minDifficulty?: number; codes?: string[] }): Question[] {
   const s = getState();
   const d = today();
-  const inScope = (code: string) => (!opts.block || code.startsWith(opts.block + '.')) && (!opts.section || code.startsWith(`${opts.section}.`));
+  const mode = s.profile.prep ?? 'standard';
+  const inScope = (code: string) => (!opts.block || code.startsWith(opts.block + '.')) && (!opts.section || code.startsWith(`${opts.section}.`)) && (!opts.codes || opts.codes.includes(code));
   let pool = practiceFor(ex).filter((q) => inScope(q.code) && (!opts.types || opts.types.includes(q.type)) && (!opts.minDifficulty || q.difficulty >= opts.minDifficulty));
+  // B+ mode skips the hardest items while basics are weak
+  if (mode === 'bplus' && pool.some((q) => q.difficulty < 5)) pool = pool.filter((q) => q.difficulty < 5);
   // add computed items for generator codes in scope
   const genCodes = GENERATED_CODES.filter((c) => inScope(c));
   for (const c of genCodes) for (let i = 0; i < 2; i++) {
@@ -51,7 +55,9 @@ export function pickPractice(ex: Locale, opts: { block?: string; section?: numbe
     const st = s.stats[q.code];
     const card = s.srs[`c:${q.code}`];
     const due = card && daysBetween(card.due, d) >= 0 ? -0.5 : 0;
-    return (st ? st.ewma : 0.5) + due + rnd() * 0.3;
+    // A+ prefers harder items, B+ prefers moderate ones
+    const diff = mode === 'aplus' ? -(q.difficulty - 3) * 0.1 : mode === 'bplus' ? Math.abs(q.difficulty - 3) * 0.08 : 0;
+    return (st ? st.ewma : 0.5) + due + diff + rnd() * 0.3;
   };
   pool = shuffle(pool, rnd).sort((a, b) => score(a) - score(b));
   // interleave: avoid the same code twice in a row when possible
@@ -117,8 +123,39 @@ export function sectionAccuracy(): Record<number, number> {
 
 export function todayPlan(): (PlanBlock & { key: string })[] {
   const s = getState();
-  return dailyPlan(s.profile.minutes, dueCount(), sectionAccuracy()).map((b) => ({ ...b, key: b.kind + (b.section ?? '') }));
+  const d = today();
+  const catchUp = missedSinceLast(s.activeDays, d) > 0;
+  const blocks = dailyPlan(s.profile.minutes, dueCount(), sectionAccuracy(), { catchUp, mode: s.profile.prep });
+  const prog = s.program ? programStatus(s.program, d, s.activeDays) : null;
+  if (prog?.mockToday) blocks.unshift({ kind: 'exam', minutes: s.profile.minutes >= 180 ? 180 : 60 });
+  return blocks.map((b) => ({ ...b, key: b.kind + (b.section ?? '') }));
 }
+
+/** Codes to work on now, ranked for the learner's mode. */
+export function weakCodes(n = 3): string[] {
+  const s = getState();
+  return codePriority(SPEC, s.stats, s.profile.prep).slice(0, n).map((x) => x.code);
+}
+
+const daySeed = (day: string) => [...day].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);
+
+/** Daily quiz: the same 10 items for everyone on a given day and language, all three sections. */
+export function dailyQuizSet(ex: Locale, day = today()): Question[] {
+  const rnd = mulberry32(daySeed(day));
+  const out: Question[] = [];
+  for (const sec of [1, 2, 3]) {
+    const pool = shuffle(practiceFor(ex).filter((q) => q.section === sec && q.type !== 'Y-2'), rnd);
+    out.push(...pool.slice(0, sec === 2 ? 2 : 3));
+  }
+  for (const code of shuffle([...GENERATED_CODES], rnd).slice(0, 2)) {
+    const g = generatePractice(code, daySeed(day) % 100000);
+    if (g) out.push(remember(g));
+  }
+  return shuffle(out, rnd).slice(0, 10);
+}
+
+/** Lessons of a roadmap level, for checkpoint exams. */
+export const levelCodes = (ex: Locale, level: LevelId) => [...new Set(lessonsFor(ex).filter((l) => l.level === level).flatMap((l) => l.codes))];
 
 export function lessonsFor(ex: Locale): Lesson[] {
   return LESSONS.filter((l) => l.lang === 'both' || l.lang === ex)
@@ -158,7 +195,7 @@ export function gradeAndRecord(q: Question, r: Response | undefined, ex: Locale,
 
 export const variantsReady = (ex: Locale) => Math.min(TARGET_VARIANTS, availableVariants(SPEC, BANK, ex));
 
-export function startExam(kind: Attempt['kind'], ex: Locale, opts: { variant?: number; section?: number } = {}): Attempt {
+export function startExam(kind: Attempt['kind'], ex: Locale, opts: { variant?: number; section?: number; level?: LevelId } = {}): Attempt {
   let qs: Question[] = [];
   let minutes: number | null = null;
   if (kind === 'full' || kind === 'untimed' || kind === 'section') {
@@ -169,9 +206,11 @@ export function startExam(kind: Attempt['kind'], ex: Locale, opts: { variant?: n
   else if (kind === 'sit') { qs = pickPractice(ex, { n: 10, types: ['V-Y-1'] }); minutes = 20; }
   else if (kind === 'open') { qs = pickPractice(ex, { n: 10, types: ['O-1'] }); minutes = 20; }
   else if (kind === 'hard') { qs = pickPractice(ex, { n: 10, minDifficulty: 3 }); minutes = 20; }
+  else if (kind === 'checkpoint') { qs = pickPractice(ex, { n: 12, codes: levelCodes(ex, opts.level ?? 'F') }); minutes = 25; }
+  else if (kind === 'weak') { qs = pickPractice(ex, { n: 12, codes: weakCodes(4) }); minutes = 25; }
   const now = Date.now();
   const a: Attempt = {
-    id: `${kind}-${now}`, kind, variant: opts.variant, section: opts.section, lang: ex,
+    id: `${kind}-${now}`, kind, variant: opts.variant, section: opts.section, level: opts.level, lang: ex,
     qids: qs.map((q) => remember(q).id), startedAt: now, endAt: minutes ? now + minutes * 60_000 : null,
     answers: {}, flags: [], current: 0,
   };
@@ -187,7 +226,10 @@ export function finishExam(timedOut = false): string | null {
   const report = buildReport(qs, a.answers, a.lang);
   for (const q of qs) gradeAndRecord(q, a.answers[q.id], a.lang, 0, true);
   const done: Attempt = { ...a, finishedAt: Date.now(), report, timedOut };
-  setState((st) => ({ ...st, activeExam: undefined, attempts: [...st.attempts, done], xp: st.xp + Math.round(report.correct * 2) }), true);
+  setState((st) => ({
+    ...st, activeExam: undefined, attempts: [...st.attempts, done], xp: st.xp + Math.round(report.correct * 2),
+    checkpoints: a.kind === 'checkpoint' && a.level ? { ...st.checkpoints, [a.level]: Math.max(st.checkpoints[a.level] ?? 0, report.percent) } : st.checkpoints,
+  }), true);
   checkAchievements();
   return done.id;
 }
@@ -206,4 +248,22 @@ export function download(name: string, text: string, type: string) {
   const a = document.createElement('a');
   a.href = url; a.download = name; a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/** The previous finished attempt of the same kind (same variant/section/level), for comparison. */
+export function previousAttempt(a: Attempt): Attempt | undefined {
+  const list = getState().attempts.filter((x) => x.report && x.id !== a.id && x.kind === a.kind && x.section === a.section && x.level === a.level && (x.finishedAt ?? 0) < (a.finishedAt ?? Infinity));
+  return list[list.length - 1];
+}
+
+/** Stars for a practice score: 60% → 1, 80% → 2, 100% → 3. */
+export const starsFor = (pct: number) => (pct >= 1 ? 3 : pct >= 0.8 ? 2 : pct >= 0.6 ? 1 : 0);
+
+/** Share a text file (iOS: Save to Files / iCloud); falls back to a download. */
+export async function shareOrDownload(name: string, text: string, type: string) {
+  try {
+    const file = new File([text], name, { type });
+    if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], title: name }); return; }
+  } catch (e) { if ((e as Error)?.name === 'AbortError') return; }
+  download(name, text, type);
 }

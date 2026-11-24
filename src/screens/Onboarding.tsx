@@ -52,7 +52,7 @@ export function Onboarding() {
   const setP = (p: Partial<typeof profile>) => setState((s) => ({ ...s, profile: { ...s.profile, ...p } }));
   const setS = (p: Partial<typeof settings>) => setState((s) => ({ ...s, settings: { ...s.settings, ...p } }));
   const finish = (diag: boolean) => {
-    setState((s) => ({ ...s, profile: { ...s.profile, onboarded: true } }), true);
+    setState((s) => ({ ...s, profile: { ...s.profile, onboarded: true, prep: s.profile.mode === 3 || s.profile.target === 'B+' ? 'bplus' : s.profile.mode === 4 || s.profile.target === 'A+' ? 'aplus' : 'standard' } }), true);
     navigate(diag ? 'diagnostic' : 'home');
   };
 

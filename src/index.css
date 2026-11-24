@@ -31,7 +31,7 @@
   --gold: 234 179 8; --danger: 248 113 113; --danger-soft: 64 26 30; color-scheme: dark;
 }
 
-html { font-size: 17px; -webkit-text-size-adjust: 100%; }
+html { font-size: 17px; -webkit-text-size-adjust: 100%; touch-action: manipulation; }
 body {
   @apply bg-surface-2 text-ink antialiased;
   margin: 0; min-height: 100dvh; overflow-x: hidden; line-height: 1.5;
@@ -48,12 +48,28 @@ button { cursor: pointer; }
 .pb-nav { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
 @media (min-width: 768px) { .pb-nav { padding-bottom: 2rem; } }
 
-.fade-in { animation: fade .28s ease both; }
+.fade-in { animation: screen-in .32s cubic-bezier(.2,.8,.2,1) both; }
 .pop { animation: pop .4s cubic-bezier(.2,.9,.3,1.3) both; }
-@keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes screen-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes pop { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .fade-in, .pop { animation: none; } * { transition: none !important; } }
-.reduce-motion .fade-in, .reduce-motion .pop { animation: none; }
+/* celebrations, logo, roadmap */
+.confetti { position: absolute; top: -12px; border-radius: 2px; animation: confetti-fall linear both; }
+@keyframes confetti-fall { to { transform: translateY(420px) rotate(540deg); opacity: 0; } }
+.star-pop { animation: star-pop .5s cubic-bezier(.2,.9,.3,1.5) both; }
+@keyframes star-pop { from { transform: scale(0) rotate(-40deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.logo-anim .logo-ring { animation: ring-draw 1s cubic-bezier(.6,0,.2,1) both; }
+.logo-anim .logo-dot { animation: pop .45s .75s cubic-bezier(.2,.9,.3,1.6) both; }
+@keyframes ring-draw { from { stroke-dashoffset: 110; } to { stroke-dashoffset: 0; } }
+.pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
+@keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgb(var(--emerald) / .45); } 80%, 100% { box-shadow: 0 0 0 14px rgb(var(--emerald) / 0); } }
+.grow-x { animation: grow-x .7s cubic-bezier(.2,.8,.2,1) both; transform-origin: left; }
+@keyframes grow-x { from { transform: scaleX(0); } }
+.react-in { animation: react-in .35s cubic-bezier(.2,.9,.3,1.3) both; }
+@keyframes react-in { from { opacity: 0; transform: translateY(6px) scale(.96); } }
+
+@media (prefers-reduced-motion: reduce) { .fade-in, .pop, .confetti, .star-pop, .logo-anim *, .pulse-ring, .grow-x, .react-in { animation: none !important; } * { transition: none !important; } }
+.reduce-motion .fade-in, .reduce-motion .pop, .reduce-motion .confetti, .reduce-motion .star-pop, .reduce-motion .logo-anim *, .reduce-motion .pulse-ring, .reduce-motion .grow-x, .reduce-motion .react-in { animation: none !important; }
+.reduce-motion .confetti { display: none; }
 .reduce-motion * { transition: none !important; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
@@ -66,3 +82,11 @@ button { cursor: pointer; }
   background: linear-gradient(to top, rgb(var(--surface-2)) 75%, rgb(var(--surface-2) / 0));
 }
 @media (min-width: 768px) { .action-bar { bottom: 0; } }
+
+/* iPhone: Safari zooms into inputs with font-size below 16px; keep inputs >= 16px. */
+@supports (-webkit-touch-callout: none) {
+  input, select, textarea { font-size: max(16px, 1rem) !important; }
+}
+/* While the on-screen keyboard is open, hide the tab bar so it does not float above the keyboard. */
+.kb-open .hide-on-kb { display: none; }
+.kb-open .action-bar { bottom: 0; }
