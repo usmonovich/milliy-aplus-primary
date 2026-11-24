@@ -7,6 +7,7 @@ import { BANK_S1_UZ } from './bank_s1_uz';
 import { BANK_S2 } from './bank_s2';
 import { BANK_S3 } from './bank_s3';
 import { BANK_PRACTICE } from './bank_practice';
+import { BANK_PRACTICE2 } from './bank_practice2';
 import { generatedExamItems } from './generators';
 
 export { PRIMARY_SPEC as SPEC, BLOCKS } from './spec';
@@ -20,7 +21,7 @@ export { generatePractice, GENERATED_CODES } from './generators';
 /** Number of mock variants the product targets. */
 export const TARGET_VARIANTS = 50;
 
-export const HAND_WRITTEN: Question[] = [...BANK_S1_UZ, ...BANK_S1_RU, ...BANK_S2, ...BANK_S3, ...BANK_PRACTICE];
+export const HAND_WRITTEN: Question[] = [...BANK_S1_UZ, ...BANK_S1_RU, ...BANK_S2, ...BANK_S3, ...BANK_PRACTICE, ...BANK_PRACTICE2];
 
 /** Full bank: hand-written items + computed items for computational slots. */
 export const BANK: Question[] = [...HAND_WRITTEN, ...generatedExamItems(TARGET_VARIANTS)];

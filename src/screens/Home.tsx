@@ -8,6 +8,15 @@ import { SPEC } from '../content/primary';
 import { Bar, Card, Ring, Screen, SectionTitle, Sheet, navigate, useLang } from '../ui/kit';
 import { dueCount, nextLesson, todayPlan } from '../ui/logic';
 
+// Intl data for uz-UZ is missing in many browsers, so Uzbek dates are formatted manually.
+const UZ_MONTHS = ['yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr'];
+const UZ_DAYS = ['yakshanba', 'dushanba', 'seshanba', 'chorshanba', 'payshanba', 'juma', 'shanba'];
+function formatToday(lang: string) {
+  const d = new Date();
+  if (lang === 'uz') return `${d.getDate()}-${UZ_MONTHS[d.getMonth()]}, ${UZ_DAYS[d.getDay()]}`;
+  return d.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
+}
+
 export function Home() {
   const { t, c, u, ex } = useLang();
   const s = useStore((x) => x);
@@ -37,7 +46,7 @@ export function Home() {
     <Screen>
       <div className="flex items-center justify-between pt-4">
         <div>
-          <p className="text-sm text-ink-soft">{new Date().toLocaleDateString(s.settings.uiLang === 'uz' ? 'uz-UZ' : 'ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+          <p className="text-sm text-ink-soft">{formatToday(s.settings.uiLang)}</p>
           <h1 className="text-2xl font-bold">{t('today')}</h1>
         </div>
         <div className="flex items-center gap-1 rounded-full bg-surface px-3 py-2 text-sm font-semibold shadow-sm" aria-label={t('streak')}>
