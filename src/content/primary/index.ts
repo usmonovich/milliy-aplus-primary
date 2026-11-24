@@ -8,6 +8,10 @@ import { BANK_S2 } from './bank_s2';
 import { BANK_S3 } from './bank_s3';
 import { BANK_PRACTICE } from './bank_practice';
 import { BANK_PRACTICE2 } from './bank_practice2';
+import { BANK_S1_UZ_V2 } from './bank_s1_uz_v2';
+import { BANK_S1_RU_V2 } from './bank_s1_ru_v2';
+import { BANK_S2_V2 } from './bank_s2_v2';
+import { BANK_S3_V2 } from './bank_s3_v2';
 import { generatedExamItems } from './generators';
 
 export { PRIMARY_SPEC as SPEC, BLOCKS } from './spec';
@@ -21,7 +25,11 @@ export { generatePractice, GENERATED_CODES } from './generators';
 /** Number of mock variants the product targets. */
 export const TARGET_VARIANTS = 50;
 
-export const HAND_WRITTEN: Question[] = [...BANK_S1_UZ, ...BANK_S1_RU, ...BANK_S2, ...BANK_S3, ...BANK_PRACTICE, ...BANK_PRACTICE2];
+/** Exam items in variant order: variant n takes the n-th candidate of every slot. */
+const EXAM_V1 = [...BANK_S1_UZ, ...BANK_S1_RU, ...BANK_S2, ...BANK_S3];
+const EXAM_V2 = [...BANK_S1_UZ_V2, ...BANK_S1_RU_V2, ...BANK_S2_V2, ...BANK_S3_V2];
+
+export const HAND_WRITTEN: Question[] = [...EXAM_V1, ...EXAM_V2, ...BANK_PRACTICE, ...BANK_PRACTICE2];
 
 /** Full bank: hand-written items + computed items for computational slots. */
 export const BANK: Question[] = [...HAND_WRITTEN, ...generatedExamItems(TARGET_VARIANTS)];

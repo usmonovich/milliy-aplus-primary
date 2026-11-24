@@ -216,7 +216,8 @@ export function generatedExamItems(n: number): Question[] {
   const out: Question[] = [];
   const seen = new Set<string>();
   const push = (q: Question) => {
-    const key = q.type + JSON.stringify(q.stem);
+    // matching items share the instruction text, so their stems are part of the key
+    const key = q.type + JSON.stringify(q.stem) + (q.type === "Y-2" ? JSON.stringify(q.stems.map((s) => s.text)) : "");
     if (!seen.has(key)) { seen.add(key); out.push(q); }
   };
   // Seeds are drawn until n unique items exist per generator.

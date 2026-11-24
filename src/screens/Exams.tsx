@@ -66,11 +66,15 @@ export function ExamsHome() {
 
       <SectionTitle>{t('otherModes')}</SectionTitle>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-        {SPEC.sections.map((s) => (
-          <Card key={s.id} onClick={() => begin('section', { variant: 1, section: s.id })}>
-            <div className="font-semibold leading-tight">{s.id}. {u(s.title)}</div><div className="text-xs text-ink-soft">{t('modeSection')} · {t('variant')} 1</div>
-          </Card>
-        ))}
+        {SPEC.sections.map((s) => {
+          // rotate through ready variants so repeated section practice brings new items
+          const v = (attempts.filter((a) => a.kind === 'section' && a.section === s.id).length % Math.max(1, ready)) + 1;
+          return (
+            <Card key={s.id} onClick={() => begin('section', { variant: v, section: s.id })}>
+              <div className="font-semibold leading-tight">{s.id}. {u(s.title)}</div><div className="text-xs text-ink-soft">{t('modeSection')} · {t('variant')} {v}</div>
+            </Card>
+          );
+        })}
         <Card onClick={() => begin('express')}><div className="flex items-center gap-2 font-semibold"><Zap size={18} className="text-gold" />{t('modeExpress')}</div></Card>
         <Card onClick={() => begin('sit')}><div className="font-semibold">{t('modeSit')}</div><div className="text-xs text-ink-soft">V-Y-1</div></Card>
         <Card onClick={() => begin('open')}><div className="font-semibold">{t('modeOpen')}</div><div className="text-xs text-ink-soft">O-1</div></Card>

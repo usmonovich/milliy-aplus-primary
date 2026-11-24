@@ -1,28 +1,28 @@
-# Known limitations (2026-11-25)
+# Known limitations (2026-11-25, v0.2)
 
-## Content volume
-- Complete mock exams: **1 of 50** per exam language (uz, ru). The other 49 are not shown in the app.
-- Practice pool is small: 32 hand-written items plus unlimited computed math items (codes 2.1.8, 2.2.6–2.2.10, 2.3.3, 2.3.4, 2.3.6, 2.3.8).
-  Some lessons therefore offer only 2–4 practice items (e.g. Russian 1.1). Situational (V-Y-1) practice is the thinnest.
-- 17 lessons (one per specification block; section 1 separate for uz and ru), 8 Teacher Simulator scenarios, 24 glossary terms.
+## Content volume (targets of the full version in brackets)
+- Complete mock exams: **2 of 50** per exam language (uz, ru). Not-ready variants are not shown.
+- Practice: 63 hand-written items + unlimited computed math items (target ≥ 2000). 40 of 88 codes have no hand-written practice item yet.
+- Lessons: 17, one per specification block (target ~150 micro-lessons, one or more per code).
+- Teacher Simulator: 8 scenarios (target ≥ 100). The new interactive layer (class mood, reactions, debrief) works for all of them;
+  scenario-specific student reactions are not written yet — generic reactions by decision quality are used.
+- Reference cards: 24 (target ≥ 300). Diagnostic: 15 items.
 
 ## Verification
-- All items are `auto_checked` only (automated audit). **No subject-matter expert has reviewed them.**
-- Recommended textbooks (Section VIII of the specification) were catalogued but their full texts were not read.
-- Resolution 411 was read to about 80%; the scale range and rounding of the official Rasch score are not published there.
+- All items are `auto_checked` only. **No subject-matter expert has reviewed them.** See CONTENT_AUDIT.md.
+- Recommended textbooks were catalogued but their full texts were not read.
+- Competitor products named in the brief could not be found publicly under those names (COMPETITOR_ANALYSIS.md).
 
 ## Scoring
-- The app shows correct answers / 90, percentages, per-section and per-type results and an internal readiness index.
-  It never converts these into an official Rasch score or certificate level.
+- Correct answers / 90, percentages, per-section/type/code results and an internal readiness index. Never an official Rasch score or certificate level.
 
 ## Platform
-- No server: progress lives in the browser (IndexedDB). Clearing site data removes it; use Settings → Export.
-- Background push notifications are not possible without a server. Available: reminder while the app is open,
-  system notification while open (if permitted), and a daily calendar event (.ics).
-- iOS: install via Safari → Share → "Add to Home Screen". Notifications on iOS require the installed app (iOS 16.4+).
+- No server: progress lives on the device (IndexedDB, mirrored to localStorage). Use Settings → Backup (share sheet → Files/iCloud on iPhone).
+- Background push notifications are not possible without a server.
+- Haptics: Android via Vibration API; iPhone only on iOS 18+ (system switch tick); elsewhere none.
+- iPhone behaviour was tested in a 375×812 Chromium emulation, **not on a real iPhone/Safari**. Safari-specific fixes are in place
+  (16 px inputs, no double-tap zoom, keyboard-aware tab bar, save on background, update check on return) but unverified on device.
 
 ## Not implemented yet
-- Accounts, sync, payments, server-side access control (intentionally out of scope for the test version).
-- AI features (interfaces exist, disabled).
-- Playwright E2E suite in CI (browser flows were checked manually with the built-in browser).
-- Competitor analysis; remaining documentation files from the master prompt.
+- Accounts, sync, payments (out of scope for the free test version). AI features (interfaces only).
+- Playwright/WebKit E2E in CI.

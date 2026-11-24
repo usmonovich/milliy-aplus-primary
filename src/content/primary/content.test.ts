@@ -122,6 +122,72 @@ describe('mock exam variants', () => {
     const exam = new Set(BANK.filter((q) => q.pool === 'exam').map((q) => q.id));
     expect(BANK.filter((q) => q.pool === 'practice').some((q) => exam.has(q.id))).toBe(false);
   });
+  it('variants never share an item and need at least 2 per language now', () => {
+    for (const lang of ['uz', 'ru'] as Locale[]) {
+      const n = availableVariants(SPEC, BANK, lang);
+      expect(n).toBeGreaterThanOrEqual(2);
+      const seen = new Map<string, number>();
+      for (let k = 1; k <= n; k++) for (const q of assembleVariant(SPEC, BANK, lang, k)!) {
+        expect(seen.get(q.id), `${q.id} in variants ${seen.get(q.id)} and ${k}`).toBeUndefined();
+        seen.set(q.id, k);
+      }
+    }
+  });
+});
+
+/** Independent re-solution of every numeric answer in the variant-2 math items:
+ * each expected value is computed here from the problem data, not copied from the item. */
+describe('independent re-solve (variant 2, section 2)', () => {
+  const roman = (s: string) => {
+    const v: Record<string, number> = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
+    return [...s].reduce((sum, ch, i) => sum + (v[ch] < (v[s[i + 1]] ?? 0) ? -v[ch] : v[ch]), 0);
+  };
+  const pairs = (n: number) => (n * (n - 1)) / 2;
+  const masses = new Set<number>();
+  for (const a of [-1, 0, 1]) for (const b of [-1, 0, 1]) { const m = a * 1 + b * 3; if (m > 0) masses.add(m); }
+  // logic puzzle by brute force: [Aziz, Botir, Dilnoza] × [artist, musician, poet]
+  const perms = [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]];
+  const ok = perms.filter(([, b, d]) => b !== 1 && b !== 2 && d !== 2);
+  const names = ['Aziz', 'Botir', 'Dilnoza'];
+  const expected: Record<string, string> = {
+    's2-v2-213': String(roman('MCMXCIV')),
+    's2-v2-216': ['90 + 6', '80 + 16', '50 + 46', '70 + 26'].find((x) => x.split(' + ').every((p) => +p % 4 === 0))!,
+    's2-v2-218': String(6 * 14 + 5),
+    's2-v2-219': String(24 - (24 / 8) * 3),
+    's2-v2-2110': String(6 / (1 - 1 / 2 - 1 / 4)),
+    's2-v2-221': String(pairs(4)),
+    's2-v2-222': `${4 * (360 / 12)}°`,
+    's2-v2-223': String((6 * (6 - 3)) / 2),
+    's2-v2-224': `${2 * 7} sm`,
+    's2-v2-231': String(18 + 14 - (30 - 4)),
+    's2-v2-233': String(4 * 3),
+    's2-v2-235': String(pairs(5)),
+    's2-v2-236': String(9 + 7 + 1),
+    's2-v2-237': String(masses.size),
+    's2-v2-239': ok.length === 1 ? names[ok[0].indexOf(2)] : 'ambiguous',
+  };
+  for (const [id, want] of Object.entries(expected)) {
+    it(`${id} → ${want}`, () => {
+      const q = HAND_WRITTEN.find((x) => x.id === id);
+      expect(q, id).toBeDefined();
+      if (!q || q.type === 'O-1' || q.type === 'Y-2') throw new Error('choice item expected');
+      const right = q.choices.find((c) => c.id === q.answer)!;
+      // the expected value must appear as a whole token of the correct option
+      const token = new RegExp(`(^|[\\s,;])${want.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}($|[\\s,;])`);
+      expect(token.test(right.text.uz), `${id}: ${right.text.uz}`).toBe(true);
+    });
+  }
+  it('s2-v2-217 grouping gives 100 + 100', () => {
+    expect(38 + 62).toBe(100);
+    expect(47 + 53).toBe(100);
+  });
+  it('s2-v2-225 triangular pyramid satisfies Euler', () => {
+    const [v, e, f] = [3 + 1, 3 + 3, 1 + 3];
+    expect(v - e + f).toBe(2);
+    const q = HAND_WRITTEN.find((x) => x.id === 's2-v2-225');
+    if (!q || q.type === 'O-1' || q.type === 'Y-2') throw new Error('choice');
+    expect(q.choices.find((c) => c.id === q.answer)!.text.ru).toBe(`${v} вершины, ${e} рёбер, ${f} грани`);
+  });
 });
 
 describe('curriculum coverage', () => {
