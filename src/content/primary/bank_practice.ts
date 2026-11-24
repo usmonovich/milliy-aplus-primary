@@ -1,0 +1,96 @@
+// Practice pool — kept separate from the exam pool so learners never meet
+// mock-exam items in training. Generators add unlimited computed math items.
+import { mc, open } from './build';
+import type { Question } from '../../core/types';
+
+const PU = { lang: 'uz' as const, pool: 'practice' as const };
+const PR = { lang: 'ru' as const, pool: 'practice' as const };
+const PB = { lang: 'both' as const, pool: 'practice' as const };
+
+export const BANK_PRACTICE: Question[] = [
+  /* ---------- Section 1 · Uzbek ---------- */
+  mc('p1uz-11a', '1.1.1', { ...PU, d: 1 }, "«Choynak» so'zida nechta tovush bor?", ['7', '6', '5', '8'], 'B',
+    "Harflar: c-h-o-y-n-a-k (7), tovushlar: [ch-o-y-n-a-k] — 6, chunki «ch» bitta tovush."),
+  mc('p1uz-11b', '1.1.6', { ...PU, d: 2 }, "Qaysi qatorda qo'shimcha to'g'ri yozilgan?", ["qishloqga, bargga", "qishloqqa, bargka", "qishloqka, bargqa", "qishloqqa, bargga"], 'B',
+    "q/g' bilan tugagan so'zga -qa (qishloqqa), k/g bilan tugagan so'zga -ka (bargka) qo'shiladi."),
+  mc('p1uz-12a', '1.2.2', { ...PU, d: 2 }, "Qaysi so'zda so'z yasovchi qo'shimcha bor?", ['kitoblar', 'kitobni', 'kitobchi', 'kitobim'], 'C',
+    "-chi yangi so'z (kasb/mashg'ulot egasi) yasaydi; -lar, -ni, -im shakl yasovchi qo'shimchalar."),
+  mc('p1uz-12b', '1.2.6', { ...PU, d: 2 }, "Qaysi gapda undalma bor?", ["Bolalar bog'da o'ynadi.", "Bolalar, bog'ga chiqing!", "Bog'da bolalar ko'p.", "Bolalarning o'yini qiziq."], 'B',
+    "Undalma — murojaat qilingan shaxs nomi, vergul bilan ajratiladi va gap bo'lagi bo'lmaydi: «Bolalar, …». Boshqa gaplarda «bolalar» — ega yoki aniqlovchi."),
+  mc('p1uz-13a', '1.3.2', { ...PU }, "Tahlil-tarkib metodida savod o'rgatish qaysi ketma-ketlikda boradi?",
+    ["Harf → tovush → so'z", "Gap → so'z → bo'g'in → tovush → harf va qayta tarkib", "So'z → harf → gap", "Faqat butun so'zni yodlash"], 'B',
+    "Tahlil (gapdan tovushgacha bo'lish) va tarkib (tovushlardan bo'g'in, so'z tuzish) birga olib boriladi; tovush harfdan oldin keladi."),
+  open('p1uz-13b', '1.3.5', { ...PU }, "O'qituvchi «qamish» so'zini tushuntirish uchun uning rasmini ko'rsatdi. Bu lug'at ishining qaysi usuli? (bir so'z)", "ko'rgazmali",
+    "Predmet yoki rasm ko'rsatish — ko'rgazmali izohlash usuli.", { uz: ["ko'rgazmali usul", "ko'rsatish", "ko'rgazmali izohlash", 'vizual'] }),
+  mc('p1uz-14a', '1.4.5', { ...PU }, "«Muallif bu hikoyani nima maqsadda yozgan deb o'ylaysiz? Fikringizni matndan dalil bilan asoslang.» PIRLS bo'yicha bu qaysi jarayon?",
+    ["Ma'lumot topish", 'Oddiy xulosa chiqarish', 'Talqin va integratsiya', 'Baholash'], 'D',
+    "Muallif maqsadi va matn elementlarini tanqidiy tahlil qilish — baholash jarayoni (4)."),
+  mc('p1uz-14b', '1.4.1', { ...PU, d: 2 }, "O'qish malakasining qaysi sifati matn mazmunini tushunishni bildiradi?", ["To'g'ri o'qish", 'Tez o\'qish', 'Ongli o\'qish', 'Ifodali o\'qish'], 'C',
+    "Ongli o'qish — o'qilgan matn mazmunini, g'oyasini tushunish."),
+
+  /* ---------- Section 1 · Russian ---------- */
+  mc('p1ru-11a', '1.1.1', { ...PR, d: 1 }, 'Сколько звуков в слове «ель»?', ['2', '3', '4', '1'], 'B',
+    '«Ель» = [й э л’]: «е» в начале слова даёт два звука, «ь» звука не обозначает — 3 звука.'),
+  mc('p1ru-11b', '1.1.4', { ...PR, d: 2 }, 'В каком ряду во всех словах пишется разделительный «ъ»?', ['под..езд, об..явление, с..ел', 'вь..юга, сем..я, под..езд', 'руч..и, об..ём, сол..ю', 'вез..де, с..ел, ден..'], 'A',
+    '«ъ» пишется после приставки на согласный перед е, ё, ю, я: подъезд, объявление, съел.'),
+  mc('p1ru-12a', '1.2.2', { ...PR, d: 2 }, 'Какое слово является однокоренным к слову «лес»?', ['лестница', 'лесник', 'лесть', 'лезть'], 'B',
+    'Лесник — тот, кто охраняет лес: общий корень и общее значение. «Лестница», «лесть» — созвучные, но не родственные.'),
+  mc('p1ru-12b', '1.2.6', { ...PR, d: 2 }, 'В каком предложении есть обращение?', ['Дети гуляли в парке.', 'Дети, идите в класс!', 'В классе много детей.', 'Игра детей была весёлой.'], 'B',
+    'Обращение называет адресата речи и выделяется запятыми: «Дети, идите…».'),
+  mc('p1ru-13a', '1.3.2', { ...PR }, 'Какой этап предшествует знакомству с буквой в аналитико-синтетическом методе?', ['Списывание слова', 'Звуковой анализ слова', 'Чтение текста', 'Диктант'], 'B',
+    'Сначала выделяется звук в слове (анализ), затем вводится обозначающая его буква.'),
+  open('p1ru-13b', '1.3.5', { ...PR }, 'Учитель объяснил слово «отважный», подобрав к нему знакомое детям слово «смелый». Каким способом семантизации он воспользовался? (краткий ответ)', 'подбор синонима',
+    'Объяснение значения через близкое по смыслу знакомое слово — подбор синонима.', { ru: ['синоним', 'через синоним', 'синонимический', 'подбор синонимов', 'синонимия', 'с помощью синонима'] }),
+  mc('p1ru-14a', '1.4.5', { ...PR }, '«Где жил герой рассказа?» — ответ прямо дан в первом предложении. Какой это процесс PIRLS?', ['Поиск явно заданной информации', 'Прямой вывод', 'Интерпретация и интеграция', 'Оценка'], 'A',
+    'Ответ явно сформулирован в тексте — процесс 1.'),
+  mc('p1ru-14b', '1.4.1', { ...PR, d: 2 }, 'Какое качество навыка чтения означает понимание прочитанного?', ['Правильность', 'Беглость', 'Осознанность', 'Выразительность'], 'C',
+    'Осознанность — понимание содержания и идеи прочитанного.'),
+
+  /* ---------- Section 2 · shared ---------- */
+  mc('p2-21a', '2.1.2', { ...PB, d: 1 }, ["4 085 sonida yuzlar xonasida qaysi raqam turibdi?", 'Какая цифра стоит в разряде сотен числа 4 085?'], ['4', '0', '8', '5'], 'B',
+    ["Minglar 4, yuzlar 0, o'nlar 8, birlar 5.", 'Тысячи 4, сотни 0, десятки 8, единицы 5.']),
+  mc('p2-21b', '2.1.9', { ...PB, d: 2 }, ["Qaysi kasr eng katta?", 'Какая дробь наибольшая?'], ['1/8', '1/2', '1/4', '1/6'], 'B',
+    ["Surati bir xil kasrlardan maxraji kichigi katta: 1/2.", 'Из дробей с одинаковым числителем больше та, у которой знаменатель меньше: 1/2.']),
+  mc('p2-22a', '2.2.3', { ...PB, d: 1 }, ["Kvadrat haqidagi qaysi fikr to'g'ri?", 'Какое утверждение о квадрате верно?'],
+    [["Kvadrat to'g'ri to'rtburchak emas", 'Квадрат — не прямоугольник'], ["Kvadrat — barcha tomonlari teng to'g'ri to'rtburchak", 'Квадрат — прямоугольник, у которого все стороны равны'], ["Kvadratda faqat 2 ta to'g'ri burchak bor", 'У квадрата только 2 прямых угла'], ['Kvadratning diagonali yo\'q', 'У квадрата нет диагоналей']], 'B',
+    ["Kvadrat to'g'ri to'rtburchakning xususiy holi.", 'Квадрат — частный случай прямоугольника.']),
+  open('p2-22b', '2.2.9', { ...PB, d: 2 }, ["Tomoni 7 sm bo'lgan kvadrat yuzasi necha kvadrat santimetr? (son)", 'Какова площадь квадрата со стороной 7 см в квадратных сантиметрах? (число)'], '49',
+    ['S = 7 · 7 = 49 sm².', 'S = 7 · 7 = 49 см².'], {}, 49),
+  mc('p2-23a', '2.3.1', { ...PB, d: 2 }, ["20 o'quvchidan 12 tasi rasm, 10 tasi musiqa to'garagiga qatnashadi, har biri kamida bittasiga. Nechtasi ikkalasiga qatnashadi?", 'Из 20 учеников 12 ходят в кружок рисования, 10 — в музыкальный, каждый хотя бы в один. Сколько ходят в оба?'], ['2', '8', '10', '22'], 'A',
+    ["Har bir o'quvchi kamida bitta to'garakda, demak birlashma 20 ta: 12 + 10 − 20 = 2 o'quvchi ikkalasiga qatnashadi.", 'Каждый ученик ходит хотя бы в один кружок, значит объединение — 20: 12 + 10 − 20 = 2 ученика ходят в оба.']),
+  mc('p2-23b', '2.3.7', { ...PB, d: 3 }, ["3 litrli va 5 litrli idishlar yordamida jo'mrakdan aniq 4 litr suv olish mumkinmi?", 'Можно ли с помощью сосудов 3 л и 5 л набрать из крана ровно 4 л воды?'],
+    [["Yo'q", 'Нет'], ['Ha: 5 ni to\'ldirib 3 ga quyamiz (5 da 2 qoladi), 3 ni to\'kib 2 ni 3 ga o\'tkazamiz, 5 ni yana to\'ldirib 3 ni to\'ldiramiz — 5 da 4 qoladi', 'Да: наполняем 5, переливаем в 3 (в 5 остаётся 2), выливаем 3, переливаем 2 в 3, снова наполняем 5 и доливаем 3 — в 5 остаётся 4'], ['Faqat 6 litrli idish bo\'lsa', 'Только если есть сосуд 6 л'], ['Ha, 3 + 1', 'Да, 3 + 1']], 'B',
+    ["Holatlar jadvali: (5,0) → (2,3) → (2,0) → (0,2) → (5,2) → (4,3). 5 litrli idishda 4 litr.", 'Таблица состояний: (5,0) → (2,3) → (2,0) → (0,2) → (5,2) → (4,3). В сосуде 5 л — 4 л.']),
+
+  /* ---------- Section 3 · shared ---------- */
+  mc('p3-31a', '3.1.1', { ...PB, d: 1 }, ["SMART qisqartmasidagi «M» nimani bildiradi?", 'Что означает буква «M» в SMART?'],
+    [['Motivatsion', 'Мотивирующая'], ["O'lchanadigan (measurable)", 'Измеримая (measurable)'], ['Murakkab', 'Сложная'], ['Metodik', 'Методическая']], 'B',
+    ["S — aniq, M — o'lchanadigan, A — erishiladigan, R — dolzarb, T — vaqt bilan cheklangan.", 'S — конкретная, M — измеримая, A — достижимая, R — значимая, T — ограниченная во времени.']),
+  mc('p3-31b', '3.1.3', { ...PB, d: 2 }, ["Qaysi qayta aloqa rivojlantiruvchi?", 'Какая обратная связь является развивающей?'],
+    [['«Zo\'r!»', '«Молодец!»'], ["«Xulosang aniq, lekin dalil keltirmading — matndan bitta misol qo'sh»", '«Вывод понятный, но нет доказательства — добавь один пример из текста»'], ['«3 baho»', '«Оценка 3»'], ['«Yaxshiroq harakat qil»', '«Старайся лучше»']], 'B',
+    ["Rivojlantiruvchi qayta aloqa: nima yaxshi + nimani va qanday yaxshilash kerak.", 'Развивающая обратная связь: что получилось + что и как улучшить.']),
+  mc('p3-32a', '3.2.2', { ...PB }, ["Kichik maktab yoshida yetakchi faoliyat qaysi?", 'Какая деятельность является ведущей в младшем школьном возрасте?'],
+    [["O'yin", 'Игровая'], ["O'quv faoliyati", 'Учебная'], ['Mehnat', 'Трудовая'], ['Muloqot', 'Общение']], 'B',
+    ["Kichik maktab yoshida yetakchi faoliyat — o'quv faoliyati; o'yin muhim bo'lib qoladi, lekin yetakchi emas.", 'В младшем школьном возрасте ведущая деятельность — учебная; игра остаётся важной, но не ведущей.']),
+  mc('p3-32b', '3.2.4', { ...PB }, ["SEL ko'nikmalariga qaysi biri kiradi?", 'Что относится к навыкам SEL?'],
+    [["Ko'paytirish jadvalini bilish", 'Знание таблицы умножения'], ["O'z his-tuyg'ularini anglash va boshqarish", 'Осознание и регуляция своих эмоций'], ['Tez o\'qish', 'Быстрое чтение'], ['Chiroyli yozish', 'Красивый почерк']], 'B',
+    ["SEL: o'zini anglash, o'zini boshqarish, ijtimoiy anglash, munosabat ko'nikmalari, mas'uliyatli qaror qabul qilish.", 'SEL: самосознание, саморегуляция, социальная осведомлённость, навыки отношений, ответственное принятие решений.']),
+  mc('p3-33a', '3.3.1', { ...PB, d: 2 }, ["FSMU texnologiyasida «F» harfi nimani bildiradi?", 'Что означает буква «Ф» (F) в технологии FSMU?'],
+    [['Fakt', 'Факт'], ['Fikr', 'Мнение (fikr)'], ['Fan', 'Предмет'], ['Faoliyat', 'Деятельность']], 'B',
+    ["FSMU: F — fikringizni bayon eting, S — sababini ko'rsating, M — misol keltiring, U — umumlashtiring.", 'FSMU: Ф — изложите мнение, С — укажите причину, М — приведите пример, У — обобщите.']),
+  mc('p3-33b', '3.3.4', { ...PB }, ["Tabaqalashtirilgan ta'limning mohiyati nima?", 'В чём суть дифференцированного обучения?'],
+    [["Kuchsizlar uchun maqsadni pasaytirish", 'Снижать цель для слабых'], ["Bir maqsadga turli yo'l va yordam darajasi bilan olib borish", 'Вести к одной цели разными путями и с разной поддержкой'], ["O'quvchilarni doimiy guruhlarga bo'lish", 'Делить учеников на постоянные группы'], ['Har kimga bir xil topshiriq berish', 'Давать всем одно и то же задание']], 'B',
+    ["Maqsad umumiy, yo'l va yordam turli; guruhlar moslashuvchan.", 'Цель общая, пути и поддержка разные; группы гибкие.']),
+  mc('p3-34a', '3.4.5', { ...PB, d: 3 }, ["Mediatsiyada o'qituvchining roli qanday?", 'Какова роль учителя в медиации?'],
+    [["Aybdorni aniqlab jazolash", 'Найти виноватого и наказать'], ["Neytral vositachi sifatida tomonlarga bir-birini tinglash va yechimni o'zlari topishga yordam berish", 'Как нейтральный посредник помочь сторонам выслушать друг друга и самим найти решение'], ["Tomonlardan birini qo'llab-quvvatlash", 'Поддержать одну из сторон'], ['Nizoni e\'tiborsiz qoldirish', 'Игнорировать конфликт']], 'B',
+    ["Mediatsiya — neytral vositachilik; yechim tomonlarning o'zidan chiqadi.", 'Медиация — нейтральное посредничество; решение вырабатывают сами стороны.']),
+  mc('p3-34b', '3.4.6', { ...PB }, ["«Ikki yulduz va bir istak» usuli nima uchun ishlatiladi?", 'Для чего используется приём «Две звезды и одно пожелание»?'],
+    [['Baho qo\'yish uchun', 'Для выставления оценки'], ["O'zaro va o'z-o'zini baholashda ijobiy jihat va rivojlanish yo'nalishini ko'rsatish uchun", 'Для указания сильных сторон и зоны роста при само- и взаимооценивании'], ['Dars boshida tashkiliy qism uchun', 'Для организационного момента'], ['Uyga vazifa berish uchun', 'Для задания на дом']], 'B',
+    ["Ikki yutuq va bitta aniq takomillashtirish taklifi — formativ qayta aloqa shakli.", 'Два достижения и одно конкретное предложение — форма формативной обратной связи.']),
+  mc('p3-36a', '3.6.1', { ...PB, d: 1 }, ["Qaysi biri summativ baholash?", 'Что является суммативным оцениванием?'],
+    [['Chiqish kartochkasi', 'Карточка выхода'], ["Bo'lim yakunidagi summativ ish (BSB)", 'Суммативная работа за раздел (СОР)'], ['Svetofor signallari', 'Сигналы «светофор»'], ["Og'zaki savol-javob", 'Устный опрос по ходу урока']], 'B',
+    ["BSB va ChSB — summativ; qolganlari formativ vositalar.", 'СОР и СОЧ — суммативные; остальные — формативные инструменты.']),
+  mc('p3-36b', '3.6.2', { ...PB, d: 2 }, ["Rubrika nima?", 'Что такое рубрика?'],
+    [['Baholar jurnali', 'Журнал оценок'], ["Mezonlar va har bir daraja uchun deskriptorlar jadvali", 'Таблица критериев с дескрипторами для каждого уровня'], ['Dars rejasi', 'План урока'], ['Test kaliti', 'Ключ к тесту']], 'B',
+    ["Rubrika mezonlar (satrlar) va bajarish darajalari tavsifini (ustunlar) birlashtiradi.", 'Рубрика объединяет критерии (строки) и описания уровней выполнения (столбцы).']),
+];

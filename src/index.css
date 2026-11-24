@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens: deep blue, emerald, white, soft neutrals, restrained gold. */
+:root {
+  --ink: 17 24 39;
+  --ink-soft: 75 85 99;
+  --surface: 255 255 255;
+  --surface-2: 244 246 250;
+  --line: 226 231 239;
+  --brand: 30 58 138;
+  --brand-soft: 230 236 250;
+  --emerald: 5 150 105;
+  --emerald-soft: 220 245 236;
+  --gold: 202 138 4;
+  --danger: 200 50 50;
+  --danger-soft: 253 232 232;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --ink: 236 240 247; --ink-soft: 160 170 190; --surface: 22 28 42; --surface-2: 13 17 28; --line: 44 54 74;
+    --brand: 129 160 245; --brand-soft: 32 44 80; --emerald: 52 211 153; --emerald-soft: 16 52 44;
+    --gold: 234 179 8; --danger: 248 113 113; --danger-soft: 64 26 30; color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --ink: 236 240 247; --ink-soft: 160 170 190; --surface: 22 28 42; --surface-2: 13 17 28; --line: 44 54 74;
+  --brand: 129 160 245; --brand-soft: 32 44 80; --emerald: 52 211 153; --emerald-soft: 16 52 44;
+  --gold: 234 179 8; --danger: 248 113 113; --danger-soft: 64 26 30; color-scheme: dark;
+}
+
+html { font-size: 17px; -webkit-text-size-adjust: 100%; }
+body {
+  @apply bg-surface-2 text-ink antialiased;
+  margin: 0; min-height: 100dvh; overflow-x: hidden; line-height: 1.5;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+#root { min-height: 100dvh; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid rgb(var(--brand) / 0.55); outline-offset: 2px; border-radius: 10px; }
+
+.pt-safe { padding-top: env(safe-area-inset-top); }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+.pb-nav { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
+@media (min-width: 768px) { .pb-nav { padding-bottom: 2rem; } }
+
+.fade-in { animation: fade .28s ease both; }
+.pop { animation: pop .4s cubic-bezier(.2,.9,.3,1.3) both; }
+@keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pop { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .fade-in, .pop { animation: none; } * { transition: none !important; } }
+.reduce-motion .fade-in, .reduce-motion .pop { animation: none; }
+.reduce-motion * { transition: none !important; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* Sticky action bar above the mobile tab bar, with an opaque backdrop. */
+.action-bar {
+  position: sticky; z-index: 10;
+  bottom: calc(4rem + env(safe-area-inset-bottom));
+  margin: 0.75rem -1rem 0; padding: 0.75rem 1rem;
+  background: linear-gradient(to top, rgb(var(--surface-2)) 75%, rgb(var(--surface-2) / 0));
+}
+@media (min-width: 768px) { .action-bar { bottom: 0; } }
