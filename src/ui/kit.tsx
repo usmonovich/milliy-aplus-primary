@@ -4,6 +4,12 @@ import { ArrowLeft, X } from 'lucide-react';
 import { t as tr, type Key } from '../core/i18n';
 import { useStore } from '../core/store';
 import type { L, Locale } from '../core/types';
+import { W_READ } from './w7/read';
+import { W_MATH } from './w7/math';
+import { W_RU } from './w7/ru';
+import { W_UZ } from './w7/uz';
+import { W_PED } from './w7/ped';
+import { W_PSY } from './w7/psy';
 
 /* ---------------- language ---------------- */
 
@@ -311,7 +317,8 @@ function AreaGrid({ lang }: { lang: Locale }) {
   );
 }
 
-const WIDGETS: Record<string, (p: { lang: Locale }) => ReactNode> = { soundmodel: SoundModel, placevalue: PlaceValue, fractions: Fractions, venn: Venn, cubenet: CubeNet, pirls: Pirls, areagrid: AreaGrid };
+const WIDGETS: Record<string, (p: { lang: Locale }) => ReactNode> = { soundmodel: SoundModel, placevalue: PlaceValue, fractions: Fractions, venn: Venn, cubenet: CubeNet, pirls: Pirls, areagrid: AreaGrid,
+  ...W_READ, ...W_MATH, ...W_RU, ...W_UZ, ...W_PED, ...W_PSY };
 export function Widget({ id, lang }: { id: string; lang: Locale }) {
   const W = WIDGETS[id];
   return W ? <div className="mt-3 rounded-xl border border-line bg-surface p-3"><W lang={lang} /></div> : null;
