@@ -16,11 +16,18 @@ import { RU3_LESSONS } from './ru3';
 import { UZ3_LESSONS } from './uz3';
 import { PED3_LESSONS } from './ped3';
 import { PSY3_LESSONS } from './psy3';
+import { READ4_LESSONS } from './read4';
+import { MATH4_LESSONS } from './math4';
+import { RU4_LESSONS } from './ru4';
+import { UZ4_LESSONS } from './uz4';
+import { PED4_LESSONS } from './ped4';
+import { PSY4_LESSONS } from './psy4';
 
 export { COURSES, MODULES };
 
 const ALL: RichLesson[] = [...UZ_LESSONS, ...RU_LESSONS, ...SHARED_LESSONS, ...MATH2_LESSONS, ...MATH_LESSONS, ...PED2_LESSONS, ...RU2_LESSONS, ...UZ2_LESSONS, ...READ2_LESSONS,
-  ...READ3_LESSONS, ...MATH3_LESSONS, ...RU3_LESSONS, ...UZ3_LESSONS, ...PED3_LESSONS, ...PSY3_LESSONS];
+  ...READ3_LESSONS, ...MATH3_LESSONS, ...RU3_LESSONS, ...UZ3_LESSONS, ...PED3_LESSONS, ...PSY3_LESSONS,
+  ...READ4_LESSONS, ...MATH4_LESSONS, ...RU4_LESSONS, ...UZ4_LESSONS, ...PED4_LESSONS, ...PSY4_LESSONS];
 const STAGES = ['F', 'C', 'C+', 'B', 'B+', 'A', 'A+'];
 const modIdx = (l: RichLesson) => MODULES.findIndex((m) => m.id === l.module);
 /** Study order: module order, then internal stage, then authoring order. */

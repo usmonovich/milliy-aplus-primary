@@ -3,6 +3,12 @@
 // official specification; their full text was NOT available to the authors,
 // so content is original and aligned with the specification topics only.
 import type { Source } from '../../core/types';
+import { READ4_SOURCES } from './academy/read4src';
+import { MATH4_SOURCES } from './academy/math4src';
+import { RU4_SOURCES } from './academy/ru4src';
+import { UZ4_SOURCES } from './academy/uz4src';
+import { PED4_SOURCES } from './academy/ped4src';
+import { PSY4_SOURCES } from './academy/psy4src';
 
 const CHECKED = '2026-11-24';
 
@@ -59,6 +65,7 @@ export const SOURCES: Source[] = [
   // Russian-language section (official topic table exists in the spec; book list is not given for it)
   { id: 'ru-lvov', kind: 'textbook', accessed: false, author: 'Львов М.Р., Горецкий В.Г., Сосновская О.В.', title: 'Методика преподавания русского языка в начальных классах' },
   { id: 'ru-ramzaeva', kind: 'textbook', accessed: false, author: 'Рамзаева Т.Г.', title: 'Методика обучения русскому языку в начальных классах' },
+  ...READ4_SOURCES, ...MATH4_SOURCES, ...RU4_SOURCES, ...UZ4_SOURCES, ...PED4_SOURCES, ...PSY4_SOURCES,
 ];
 
 export const sourceById = (id: string) => SOURCES.find((s) => s.id === id);
