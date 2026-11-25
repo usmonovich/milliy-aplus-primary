@@ -9,6 +9,7 @@ import { Bar, Button, Card, Chip, Screen, SectionTitle, Widget, navigate, sectio
 import { LEVELS, checkAchievements, dailyQuizSet, diagnosticSet, lessonsFor, pickPractice, startExam, starsFor } from '../ui/logic';
 import { PracticeSession } from '../ui/practice';
 import { Celebrate, Stars, haptic } from '../ui/fx';
+import { CourseList } from './Academy';
 
 /* ---------------- roadmap ---------------- */
 
@@ -32,6 +33,9 @@ export function LearnHome() {
 
   return (
     <Screen title={t('navLearn')}>
+      <h2 className="mb-2 text-base font-semibold">{t('courses')}</h2>
+      <CourseList />
+      <h2 className="mb-2 mt-6 text-base font-semibold">{t('practice')}</h2>
       <Card className="mb-3">
         <div className="mb-2 flex items-center justify-between text-sm"><span className="font-semibold">{t('roadmap')}</span><span className="flex items-center gap-3 text-ink-soft"><span className="flex items-center gap-1"><Star size={15} className="fill-gold text-gold" />{starsN}/{all.length * 3}</span>{doneN}/{all.length}</span></div>
         <Bar value={(doneN / all.length) * 100} tone="emerald" />
@@ -59,7 +63,8 @@ export function LearnHome() {
         <div className="flex items-center gap-3"><Rocket className="text-brand" /><span className="flex-1 font-semibold">{t('program')} · 7–90</span><ChevronRight className="text-ink-soft" /></div>
       </Card>
 
-      <div className="no-scrollbar -mx-4 mt-5 flex gap-2 overflow-x-auto px-4">
+      <h2 className="mb-0 mt-6 text-base font-semibold">{t('blockOverviews')}</h2>
+      <div className="no-scrollbar -mx-4 mt-2 flex gap-2 overflow-x-auto px-4">
         <Chip active={sec === 0} onClick={() => setSec(0)}>{t('all')}</Chip>
         {SPEC.sections.map((s) => <Chip key={s.id} active={sec === s.id} onClick={() => setSec(s.id)}>{s.id}. {u(s.title)}</Chip>)}
       </div>
@@ -114,7 +119,6 @@ export function LearnHome() {
           </section>
         );
       })}
-      <p className="mt-4 text-xs text-ink-soft">{t('levelDesc')}</p>
     </Screen>
   );
 }
@@ -183,7 +187,6 @@ export function LessonScreen({ block }: { block: string }) {
           {done && <span className="flex items-center gap-1 text-emerald"><CheckCircle2 size={14} />{t('lessonDone')}</span>}
         </div>
         <h1 className="text-2xl font-bold leading-tight">{c(lesson.title)}</h1>
-        <p className="mt-1 text-sm text-ink-soft">{lesson.codes.join(' · ')}</p>
       </div>
 
       <div className="space-y-3">

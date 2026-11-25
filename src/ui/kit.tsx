@@ -281,7 +281,37 @@ function Pirls({ lang }: { lang: Locale }) {
   );
 }
 
-const WIDGETS: Record<string, (p: { lang: Locale }) => ReactNode> = { soundmodel: SoundModel, placevalue: PlaceValue, fractions: Fractions, venn: Venn, cubenet: CubeNet, pirls: Pirls };
+/** Rectangle on a square grid: change length and width, watch area (unit squares) and perimeter. */
+function AreaGrid({ lang }: { lang: Locale }) {
+  const [a, setA] = useState(5);
+  const [b, setB] = useState(3);
+  const cell = 26, W = 10 * cell + 4, H = 6 * cell + 4;
+  const uz = lang === 'uz';
+  const slider = (label: string, v: number, set: (n: number) => void, max: number) => (
+    <label className="flex items-center gap-3 text-sm"><span className="w-20 shrink-0">{label}: <b>{v}</b></span>
+      <input type="range" min={1} max={max} value={v} onChange={(e) => set(+e.target.value)} className="flex-1 accent-emerald" aria-label={label} /></label>
+  );
+  return (
+    <div>
+      <svg viewBox={`0 0 ${W} ${H}`} className="mb-3 w-full" role="img" aria-label={`${a}×${b}`}>
+        {Array.from({ length: 10 * 6 }, (_, i) => {
+          const x = i % 10, y = Math.floor(i / 10);
+          const inside = x < a && y < b;
+          return <rect key={i} x={2 + x * cell} y={2 + y * cell} width={cell - 2} height={cell - 2} rx="3" className={inside ? 'fill-emerald/70' : 'fill-surface-2'} />;
+        })}
+        <rect x={1} y={1} width={a * cell} height={b * cell} fill="none" strokeWidth="3" className="stroke-brand" rx="4" />
+      </svg>
+      <div className="space-y-2">{slider(uz ? "Bo'yi a" : 'Длина a', a, setA, 10)}{slider(uz ? 'Eni b' : 'Ширина b', b, setB, 6)}</div>
+      <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
+        <div className="rounded-xl bg-emerald-soft p-2"><div className="text-ink-soft">{uz ? 'Yuza (kataklar soni)' : 'Площадь (число клеток)'}</div><b className="text-lg">S = {a} · {b} = {a * b}</b></div>
+        <div className="rounded-xl bg-brand-soft p-2"><div className="text-ink-soft">{uz ? 'Perimetr (chegara uzunligi)' : 'Периметр (длина границы)'}</div><b className="text-lg">P = 2·({a}+{b}) = {2 * (a + b)}</b></div>
+      </div>
+      <p className="mt-2 text-sm text-ink-soft">{uz ? `${b} qator, har birida ${a} ta katak — shuning uchun yuza ko'paytirish bilan topiladi.` : `${b} ряда по ${a} клеток — поэтому площадь находят умножением.`}</p>
+    </div>
+  );
+}
+
+const WIDGETS: Record<string, (p: { lang: Locale }) => ReactNode> = { soundmodel: SoundModel, placevalue: PlaceValue, fractions: Fractions, venn: Venn, cubenet: CubeNet, pirls: Pirls, areagrid: AreaGrid };
 export function Widget({ id, lang }: { id: string; lang: Locale }) {
   const W = WIDGETS[id];
   return W ? <div className="mt-3 rounded-xl border border-line bg-surface p-3"><W lang={lang} /></div> : null;

@@ -13,6 +13,7 @@ import { BANK_S1_RU_V2 } from './bank_s1_ru_v2';
 import { BANK_S2_V2 } from './bank_s2_v2';
 import { BANK_S3_V2 } from './bank_s3_v2';
 import { generatedExamItems } from './generators';
+import { ACADEMY_QUESTIONS } from './academy';
 
 export { PRIMARY_SPEC as SPEC, BLOCKS } from './spec';
 export { LESSONS, lessonFor } from './lessons';
@@ -21,6 +22,7 @@ export { GLOSSARY, GLOSSARY_CATS } from './glossary';
 export { SOURCES, sourceById } from './sources';
 export { CERT_FACTS, CERT_INFO_VERSION, REGISTRATION_URL, ALLOWANCE_RATE, ALLOWANCE_LEVELS } from './cert';
 export { generatePractice, GENERATED_CODES } from './generators';
+export { ACADEMY, ACADEMY_QUESTIONS, COURSES, MODULES, academyLesson, courseOf, coursesFor, lessonsOfCourse, moduleOf } from './academy';
 
 /** Number of mock variants the product targets. */
 export const TARGET_VARIANTS = 50;
@@ -29,7 +31,7 @@ export const TARGET_VARIANTS = 50;
 const EXAM_V1 = [...BANK_S1_UZ, ...BANK_S1_RU, ...BANK_S2, ...BANK_S3];
 const EXAM_V2 = [...BANK_S1_UZ_V2, ...BANK_S1_RU_V2, ...BANK_S2_V2, ...BANK_S3_V2];
 
-export const HAND_WRITTEN: Question[] = [...EXAM_V1, ...EXAM_V2, ...BANK_PRACTICE, ...BANK_PRACTICE2];
+export const HAND_WRITTEN: Question[] = [...EXAM_V1, ...EXAM_V2, ...BANK_PRACTICE, ...BANK_PRACTICE2, ...ACADEMY_QUESTIONS];
 
 /** Full bank: hand-written items + computed items for computational slots. */
 export const BANK: Question[] = [...HAND_WRITTEN, ...generatedExamItems(TARGET_VARIANTS)];

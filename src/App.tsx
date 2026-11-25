@@ -12,10 +12,11 @@ import { ExamReport, ExamRunner, ExamsHome, Mistakes } from './screens/Exams';
 import { Flashcards, KnowledgeHome, SourcesScreen, TermScreen } from './screens/Knowledge';
 import { Achievements, CertInfo, ProfileHome, ReportScreen, SettingsScreen, Stats } from './screens/Profile';
 import { Logo, Wordmark, haptic } from './ui/fx';
+import { AcademyLesson, CourseScreen } from './screens/Academy';
 
 const TABS = [
   { id: 'home', icon: HomeIcon, key: 'navHome' as const, match: ['home'] },
-  { id: 'learn', icon: BookOpen, key: 'navLearn' as const, match: ['learn', 'lesson', 'practice', 'sim', 'diagnostic', 'quiz', 'plan'] },
+  { id: 'learn', icon: BookOpen, key: 'navLearn' as const, match: ['learn', 'lesson', 'practice', 'sim', 'diagnostic', 'quiz', 'plan', 'course', 'a'] },
   { id: 'exams', icon: ClipboardCheck, key: 'navExams' as const, match: ['exams', 'exam', 'mistakes'] },
   { id: 'know', icon: Library, key: 'navKnow' as const, match: ['know'] },
   { id: 'profile', icon: User, key: 'navProfile' as const, match: ['profile'] },
@@ -29,6 +30,8 @@ function Routes({ r }: { r: string[] }) {
     case 'practice': return <PracticeRoute key={r.join('/')} args={r.slice(1)} />;
     case 'diagnostic': return <Diagnostic />;
     case 'quiz': return <DailyQuiz />;
+    case 'course': return <CourseScreen key={b} id={b} />;
+    case 'a': return <AcademyLesson key={b} id={b} />;
     case 'plan': return <ProgramScreen />;
     case 'sim': return b ? <SimRun key={b} id={b} /> : <SimList />;
     case 'exams': return <ExamsHome />;

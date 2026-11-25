@@ -62,7 +62,7 @@ export function ExamsHome() {
           );
         })}
       </div>
-      <p className="mt-2 text-xs text-ink-soft">{t('variantsPlanned', { n: TARGET_VARIANTS, k: ready })} {t('authorItems')}</p>
+      <p className="mt-2 text-xs text-ink-soft">{t('variantsPlanned', { n: TARGET_VARIANTS, k: ready })}</p>
 
       <SectionTitle>{t('otherModes')}</SectionTitle>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -250,13 +250,13 @@ export function ExamReport({ id }: { id: string }) {
       </div>
       <SectionTitle>{t('byType')}</SectionTitle>
       <div className="grid grid-cols-2 gap-2">
-        {Object.entries(r.byType).map(([k, v]) => <Card key={k}><div className="font-mono text-xs text-ink-soft">{k}</div><div className="text-xl font-bold">{v.correct}/{v.total}</div></Card>)}
+        {Object.entries(r.byType).map(([k, v]) => <Card key={k}><div className="text-xs text-ink-soft">{t(`type_${k}` as 'type_Y-1')}</div><div className="text-xl font-bold">{v.correct}/{v.total}</div></Card>)}
       </div>
       <SectionTitle>{t('weak')}</SectionTitle>
       <div className="grid gap-2">
         {Object.entries(r.byCode).filter(([, v]) => v.correct < v.total).slice(0, 8).map(([code]) => {
           const blk = code.split('.').slice(0, 2).join('.');
-          return <Card key={code} onClick={() => navigate(`lesson/${blk}`)}><div className="flex items-center gap-2 text-sm"><span className="font-mono text-xs">{code}</span><span className="flex-1">{u(SPEC.codes.find((c) => c.code === code)!.title)}</span><ChevronRight size={16} /></div></Card>;
+          return <Card key={code} onClick={() => navigate(`lesson/${blk}`)}><div className="flex items-center gap-2 text-sm"><span className="flex-1">{u(SPEC.codes.find((c) => c.code === code)!.title)}</span><ChevronRight size={16} /></div></Card>;
         })}
       </div>
       <div className="mt-4"><Button full variant="secondary" icon={<Flag size={18} />} onClick={() => setReview(!review)}>{t('reviewAnswers')}</Button></div>
@@ -314,7 +314,7 @@ export function Mistakes({ review }: { review?: boolean }) {
           return (
             <Card key={m.qid}>
               <div className="mb-1 flex items-center justify-between gap-2 text-xs text-ink-soft">
-                <span className="font-mono">{m.code}</span>
+                <span>{u(SPEC.codes.find((x) => x.code === m.code)?.title ?? { uz: '', ru: '' })}</span>
                 {m.resolved ? <span className="flex items-center gap-1 text-emerald"><CheckCircle2 size={14} />{t('mastered')}</span> : <span>{m.count} {t('timesWrong')} · {t('nextReview')}: {card?.due ?? '—'}</span>}
               </div>
               <p className="line-clamp-3 text-sm">{q ? c(q.stem) : u(SPEC.codes.find((x) => x.code === m.code)!.title)}</p>

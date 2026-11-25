@@ -66,6 +66,12 @@ interface QuestionBase {
   difficulty: Difficulty;
   stem: L;
   explanation: L;
+  /** The rule to remember (shown after a wrong answer). */
+  rule?: L;
+  /** Step-by-step correct reasoning. */
+  steps?: L[];
+  /** Academy lesson to revisit. */
+  academy?: string;
   pitfalls?: L;
   lessonId?: string;
   sourceIds: string[];
@@ -185,5 +191,53 @@ export interface GlossaryTerm {
   example: L;
   mistakes?: L;
   lessonIds?: string[];
+  sourceIds: string[];
+}
+
+/* ------------------------------------------------------------------ */
+/* Academy: courses → modules → full lessons                          */
+/* ------------------------------------------------------------------ */
+
+export type Track = 'lang' | 'read' | 'math' | 'ped' | 'psy';
+
+export interface Course {
+  id: string;
+  track: Track;
+  /** Exam-language scope: language courses exist separately for uz and ru. */
+  lang: Locale | 'both';
+  title: L;
+  /** Spec section this course prepares for. */
+  section: number;
+}
+
+export interface Module {
+  id: string;
+  course: string;
+  title: L;
+}
+
+/** One teaching block. Each kind has its own visual style. */
+export type RichBlock =
+  | { kind: 'intro' | 'explain' | 'definition' | 'rule' | 'derivation' | 'exception' | 'mistake' | 'apply' | 'method' | 'summary'; title?: L; body?: L; items?: L[] }
+  | { kind: 'formula'; tex: string; legend?: L[]; body?: L }
+  | { kind: 'example'; title?: L; task: L; steps: { text: L; tex?: string }[]; answer?: L; alt?: L }
+  | { kind: 'table'; title?: L; head: L[]; rows: L[][] }
+  | { kind: 'interactive'; widget: string; body?: L }
+  | { kind: 'try'; q: Question };
+
+export interface RichLesson {
+  id: string;
+  module: string;
+  title: L;
+  minutes: number;
+  level: 'intro' | 'core' | 'advanced';
+  /** Official spec codes this lesson prepares for. */
+  codes: string[];
+  /** Lessons that should come first (soft prerequisite). */
+  requires?: string[];
+  /** Subject knowledge and teaching-method parts. */
+  blocks: RichBlock[];
+  /** Final mastery check (practice pool items). */
+  check: Question[];
   sourceIds: string[];
 }

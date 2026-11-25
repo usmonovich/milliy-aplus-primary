@@ -130,7 +130,6 @@ export function Home() {
         </div>
       </Card>
       <Sheet open={info} onClose={() => setInfo(false)} title={t('readiness')}><p className="leading-relaxed">{t('readinessHint')}</p></Sheet>
-      <p className="mt-6 text-center text-xs text-ink-soft">{t('disclaimer')}</p>
     </Screen>
   );
 }

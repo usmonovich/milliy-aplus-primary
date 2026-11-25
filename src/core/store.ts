@@ -76,6 +76,7 @@ export interface State {
   checkpoints: Record<string, number>; // level -> best percent
   reports: ErrorReport[];
   reviews: Record<string, ItemReview>; // expert review marks by item id
+  academy: Record<string, { best: number; done?: string }>; // academy lesson mastery
   lastBackup?: string;
   /** Last day the "missed days" notice was shown. */
   seenMissed?: string;
@@ -89,7 +90,7 @@ export const initialState = (): State => ({
   profile: { onboarded: false, experience: 1, selfLevel: 1, target: 'B+', minutes: 60, mode: 1, diagnosticDone: false, prep: 'standard' },
   stats: {}, srs: {}, mistakes: {}, answerLog: [], activeDays: [], xp: 0, achievements: [], attempts: [],
   lessonsDone: {}, favorites: [], simBest: {}, dailyDone: {},
-  quizzes: {}, stars: {}, checkpoints: {}, reports: [], reviews: {},
+  quizzes: {}, stars: {}, checkpoints: {}, reports: [], reviews: {}, academy: {},
 });
 
 /* ---------------- persistence ---------------- */

@@ -4,11 +4,10 @@ import { AlertTriangle, Award, BarChart3, Bug, ChevronRight, Copy, Download, Ext
 import { addDays, daysBetween, readiness, streak } from '../core/engine';
 import { ACHIEVEMENTS, xpLevel } from '../core/gamification';
 import { LOCALES } from '../core/i18n';
-import { aiEnabled } from '../core/ai';
 import { exportJSON, importJSON, resetAll, setState, today, useStore, type Settings } from '../core/store';
-import { ALLOWANCE_LEVELS, ALLOWANCE_RATE, BANK, CERT_FACTS, CERT_INFO_VERSION, HAND_WRITTEN, LESSONS, REGISTRATION_URL, SCENARIOS, SPEC, TIERS, sourceById } from '../content/primary';
+import { ALLOWANCE_LEVELS, ALLOWANCE_RATE, CERT_FACTS, CERT_INFO_VERSION, REGISTRATION_URL, SPEC, sourceById } from '../content/primary';
 import { Bar, Button, Card, Chip, Ring, Screen, SectionTitle, Stat, navigate, useLang } from '../ui/kit';
-import { download, getQ, icsReminder, shareOrDownload, variantsReady } from '../ui/logic';
+import { download, getQ, icsReminder, shareOrDownload } from '../ui/logic';
 import { Logo, Wordmark } from '../ui/fx';
 
 export function ProfileHome() {
@@ -147,7 +146,6 @@ export function Stats() {
           <Stat label={t('repeatedErr')} value={repeat} />
         </div>
       </div>
-      <p className="mt-2 text-xs text-ink-soft">{t('readinessHint')}</p>
 
       <SectionTitle>{t('bySection')}</SectionTitle>
       <div className="grid gap-2">
@@ -209,7 +207,7 @@ export function Achievements() {
 }
 
 export function SettingsScreen() {
-  const { t, u, ui, ex } = useLang();
+  const { t } = useLang();
   const st = useStore((s) => s.settings);
   const examDate = useStore((s) => s.profile.examDate);
   const minutes = useStore((s) => s.profile.minutes);
@@ -261,12 +259,6 @@ export function SettingsScreen() {
           <Button full variant="ghost" className="mt-2 !text-danger" onClick={() => confirm(t('resetConfirm')) && resetAll()}>{t('resetData')}</Button>
         </Card>
 
-        <Card>
-          <div className="mb-2 font-semibold">{t('tiers')}</div>
-          <p className="text-sm text-ink-soft">{t('tierNote')}</p>
-          <div className="mt-2 flex flex-wrap gap-2 text-sm">{TIERS.premium.prices.map((p) => <span key={p.months} className="rounded-lg bg-surface-2 px-2 py-1">{p.months} {t('perMonth')} · {p.uzs.toLocaleString('ru-RU')} {ui === 'uz' ? "so'm" : 'сум'}</span>)}</div>
-          <p className="mt-3 text-sm text-ink-soft">{aiEnabled() ? '' : t('aiNote')}</p>
-        </Card>
 
         <Card>
           <label className="flex items-center justify-between gap-3"><span className="font-semibold">{t('reviewerMode')}</span><input type="checkbox" className="h-6 w-6 accent-emerald" checked={st.reviewer} onChange={(e) => set({ reviewer: e.target.checked })} /></label>
@@ -279,14 +271,7 @@ export function SettingsScreen() {
 
         <Card onClick={() => navigate('profile/report')}><div className="flex items-center gap-3"><Bug className="text-danger" /><span className="flex-1 font-semibold">{t('reportError')}</span><ChevronRight className="text-ink-soft" /></div></Card>
 
-        <Card className="text-sm text-ink-soft">
-          <div className="font-semibold text-ink">{t('contentStatus')}</div>
-          <p className="mt-1">{t('variantsPlanned', { n: 50, k: variantsReady(ex) })}</p>
-          <p className="mt-1">{t('lessons')}: {LESSONS.length} · {t('simulator')}: {SCENARIOS.length} · {HAND_WRITTEN.length} + {BANK.length - HAND_WRITTEN.length} gen.</p>
-          <p className="mt-1">{t('statusAuto')}</p>
-          <p className="mt-1">{t('st_auto_checked')}: {HAND_WRITTEN.filter((q) => q.status === 'auto_checked').length} · {t('st_teacher_reviewed')}: {HAND_WRITTEN.filter((q) => q.status === 'teacher_reviewed' || q.status === 'approved').length}</p>
-          <p className="mt-1">{t('version')}: {__APP_VERSION__} · {u({ uz: 'Spetsifikatsiya', ru: 'Спецификация' })} {SPEC.version}</p>
-        </Card>
+        <p className="text-center text-xs text-ink-soft">{t('statusAuto')} · {t('version')} {__APP_VERSION__}</p>
       </div>
     </Screen>
   );
@@ -372,7 +357,6 @@ export function ReportScreen({ qid }: { qid?: string }) {
       <label className="block font-semibold">{t('reportQid')}
         <input value={id} onChange={(e) => setId(e.target.value)} autoCapitalize="off" autoComplete="off" spellCheck={false} placeholder="s3-v1-311"
           className="mt-1 h-12 w-full rounded-xl border border-line bg-surface px-3 font-mono font-normal" /></label>
-      {q && <p className="mt-1 text-xs text-ink-soft">{q.code} · {q.type} · {t(`st_${q.status}`)}</p>}
       <label className="mt-4 block font-semibold">{t('reportText')}
         <textarea value={text} onChange={(e) => setText(e.target.value)} rows={5} placeholder={t('reportPlaceholder')}
           className="mt-1 w-full rounded-xl border border-line bg-surface p-3 font-normal leading-relaxed" /></label>

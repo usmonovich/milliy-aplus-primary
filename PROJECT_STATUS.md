@@ -1,4 +1,14 @@
-# Milliy A+ Primary — Project status (2026-11-25, v0.2)
+# Milliy A+ Primary — Project status (2026-11-25, v0.3)
+
+## New in v0.3
+- Interface cleaned: no internal codes, item ids, task-type codes, test counts, tariff/AI notes or developer status cards;
+  long hints shortened. Reliability notes kept in one line (Settings) and in the exam report.
+- Academy: courses → modules → full lessons in a new block format (definition, rule, KaTeX formulas, worked examples,
+  exceptions, mistakes, interactive demos, "try it", teaching method, summary, mastery check ≥ 80 % with retry).
+- First 9 full lessons (see CURRICULUM.md); interactive area grid.
+- Wrong-answer feedback: why the chosen option is wrong, rule to remember, step-by-step solution, how to avoid, link to lesson.
+- Tests: 51/51.
+
 
 **Live test version:** https://usmonovich.github.io/milliy-aplus-primary/
 **Repository:** https://github.com/usmonovich/milliy-aplus-primary (every push to `main` → tests → build → GitHub Pages)

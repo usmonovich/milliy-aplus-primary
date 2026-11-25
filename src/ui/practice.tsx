@@ -11,8 +11,13 @@ import { checkAchievements, generated, gradeAndRecord, isAnswered, pickPractice 
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
+/** Task-format hint for learners (matching / short answer); internal codes only in reviewer mode. */
 export function TypeBadge({ q }: { q: Question }) {
-  return <span className="rounded-md bg-surface-2 px-2 py-0.5 font-mono text-xs text-ink-soft">{q.code} · {q.type}</span>;
+  const { t } = useLang();
+  const reviewer = useStore((s) => s.settings.reviewer);
+  const fmt = q.type === 'Y-2' ? t('fmtMatch') : q.type === 'O-1' ? t('fmtOpen') : null;
+  if (reviewer) return <span className="rounded-md bg-surface-2 px-2 py-0.5 font-mono text-xs text-ink-soft">{q.code} · {q.type}</span>;
+  return fmt ? <span className="rounded-md bg-surface-2 px-2 py-0.5 text-xs text-ink-soft">{fmt}</span> : null;
 }
 
 /** Renders one item. `shuffleSeed` reorders choices (practice only; exams keep official order). */
@@ -99,6 +104,7 @@ export function Feedback({ q, response }: { q: Question; response?: Response }) 
   const reviewer = useStore((s) => s.settings.reviewer);
   const got = gradeQuestion(q, response, ex), total = taskCount(q);
   const ok = got === total;
+  const chosen = (q.type === "Y-1" || q.type === "V-Y-1") && response?.kind === "choice" ? q.choices.find((x) => x.id === response.value) : undefined;
   const src = q.sourceIds.map((id) => sourceById(id)?.title).filter(Boolean).slice(0, 2);
   return (
     <div className={`mt-4 rounded-2xl border p-4 pop ${ok ? 'border-emerald/40 bg-emerald-soft' : 'border-danger/30 bg-danger-soft'}`} role="status">
@@ -110,15 +116,28 @@ export function Feedback({ q, response }: { q: Question; response?: Response }) 
         <p className="mb-2 text-sm"><span className="text-ink-soft">{t('rightAnswer')}: </span>
           <b>{q.type === 'O-1' ? c(q.answer) : c(q.choices.find((x) => x.id === q.answer)!.text)}</b></p>
       )}
+      {!ok && chosen?.why && (
+        <div className="mb-3 rounded-xl bg-surface/70 p-3 text-sm"><div className="mb-1 font-semibold">{t('whyWrong')}</div>
+          <span className="text-ink-soft">«{c(chosen.text)}» — </span>{c(chosen.why)}</div>
+      )}
+      {!ok && q.rule && (
+        <div className="mb-3 rounded-xl border border-emerald/40 bg-surface/70 p-3 text-sm"><div className="mb-1 font-semibold text-emerald">{t('ruleToRemember')}</div>{c(q.rule)}</div>
+      )}
+      {!ok && q.steps && q.steps.length > 0 && (
+        <div className="mb-3 text-sm"><div className="mb-1 font-semibold">{t('stepByStep')}</div>
+          <ol className="list-decimal space-y-1 pl-5">{q.steps.map((s, i) => <li key={i} className="leading-relaxed">{c(s)}</li>)}</ol></div>
+      )}
       <p className="text-sm leading-relaxed">{c(q.explanation)}</p>
-      {q.pitfalls && <p className="mt-2 text-sm text-ink-soft">{c(q.pitfalls)}</p>}
-      <p className="mt-3 text-xs text-ink-soft">{t('competency')}: {c(q.competency)} · {q.code}</p>
-      {src.length > 0 && <p className="mt-1 text-xs text-ink-soft">{t('source')}: {src.join('; ')}</p>}
+      {q.pitfalls && <div className="mt-2 text-sm"><b>{t('avoidNext')}:</b> <span className="text-ink-soft">{c(q.pitfalls)}</span></div>}
+      {!ok && (q.academy || q.lessonId) && (
+        <button type="button" onClick={() => navigate(q.academy ? `a/${q.academy}` : `lesson/${q.code.split('.').slice(0, 2).join('.')}`)}
+          className="mt-3 inline-flex min-h-[2.5rem] items-center gap-1.5 rounded-lg bg-surface px-3 text-sm font-semibold text-brand"><BookOpen size={16} />{t('reviewLesson')}</button>
+      )}
+      {src.length > 0 && <p className="mt-3 text-xs text-ink-soft">{t('source')}: {src.join('; ')}</p>}
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <button type="button" onClick={() => navigate(`profile/report/${encodeURIComponent(q.id)}`)} className="inline-flex min-h-[2.5rem] items-center gap-1.5 rounded-lg px-2 text-xs font-medium text-ink-soft hover:bg-surface">
           <Bug size={14} />{t('reportError')}
         </button>
-        <span className="font-mono text-[11px] text-ink-soft">{q.id}</span>
       </div>
       {reviewer && <ReviewBar qid={q.id} status={t(`st_${q.status}`)} />}
     </div>
