@@ -1,5 +1,5 @@
-// Course and module map of the academy. Only modules with ready lessons are
-// shown in the app; the full planned syllabus is in CURRICULUM.md.
+// Course and module map of the academy. Modules are listed in study order;
+// only modules with ready lessons are shown. Full plan: CURRICULUM.md.
 import type { Course, Module } from '../../../core/types';
 import { tx } from '../build';
 
@@ -16,12 +16,20 @@ const m = (id: string, course: string, uz: string, ru: string): Module => ({ id,
 
 export const MODULES: Module[] = [
   m('uz-fon', 'uz-lang', 'Fonetika va grafika', 'Fonetika va grafika'),
-  m('uz-morf', 'uz-lang', 'Morfologiya: so\'z turkumlari', "Morfologiya: so'z turkumlari"),
+  m('uz-morfem', 'uz-lang', "Morfemika va so'z yasalishi", "Morfemika va so'z yasalishi"),
+  m('uz-morf', 'uz-lang', "Morfologiya: so'z turkumlari", "Morfologiya: so'z turkumlari"),
   m('ru-fon', 'ru-lang', 'Фонетика и графика', 'Фонетика и графика'),
+  m('ru-morfem', 'ru-lang', 'Состав слова и орфография корня', 'Состав слова и орфография корня'),
   m('ru-morf', 'ru-lang', 'Морфология: части речи', 'Морфология: части речи'),
-  m('read-core', 'read', "Matnni tushunish", 'Понимание текста'),
+  m('read-core', 'read', 'Matnni tushunish', 'Понимание текста'),
+  m('math-num', 'math', 'Sonlar va sanoq sistemalari', 'Числа и системы счисления'),
+  m('math-ops', 'math', 'Arifmetik amallar va ularning xossalari', 'Арифметические действия и их свойства'),
   m('math-geo', 'math', 'Kattaliklar va geometriya', 'Величины и геометрия'),
   m('math-frac', 'math', 'Ulushlar va kasrlar', 'Доли и дроби'),
+  m('math-prob', 'math', 'Matnli masalalar', 'Текстовые задачи'),
+  m('ped-found', 'ped', 'Pedagogika va didaktika asoslari', 'Основы педагогики и дидактики'),
+  m('ped-lesson', 'ped', 'Darsni rejalashtirish', 'Планирование урока'),
   m('ped-assess', 'ped', 'Baholash', 'Оценивание'),
+  m('psy-age', 'psy', 'Kichik maktab yoshi', 'Младший школьный возраст'),
   m('psy-cog', 'psy', 'Bilish jarayonlari', 'Познавательные процессы'),
 ];

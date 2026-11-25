@@ -5,10 +5,18 @@ import { MATH_LESSONS } from './math';
 import { SHARED_LESSONS } from './shared';
 import { RU_LESSONS } from './ru';
 import { UZ_LESSONS } from './uz';
+import { MATH2_LESSONS } from './math2';
+import { PED2_LESSONS } from './ped2';
 
 export { COURSES, MODULES };
 
-export const ACADEMY: RichLesson[] = [...UZ_LESSONS, ...RU_LESSONS, ...SHARED_LESSONS, ...MATH_LESSONS];
+const ALL: RichLesson[] = [...UZ_LESSONS, ...RU_LESSONS, ...SHARED_LESSONS, ...MATH2_LESSONS, ...MATH_LESSONS, ...PED2_LESSONS];
+const STAGES = ['F', 'C', 'C+', 'B', 'B+', 'A', 'A+'];
+const modIdx = (l: RichLesson) => MODULES.findIndex((m) => m.id === l.module);
+/** Study order: module order, then internal stage, then authoring order. */
+export const ACADEMY: RichLesson[] = ALL.map((l, i) => ({ l, i }))
+  .sort((a, b) => modIdx(a.l) - modIdx(b.l) || STAGES.indexOf(a.l.stage ?? 'C') - STAGES.indexOf(b.l.stage ?? 'C') || a.i - b.i)
+  .map((x) => x.l);
 
 /** All check and inline "try" questions of academy lessons (practice pool). */
 export const ACADEMY_QUESTIONS: Question[] = ACADEMY.flatMap((l) => [

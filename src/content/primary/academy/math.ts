@@ -5,7 +5,7 @@ const AREA = 'math-area-rect';
 const AM = { lang: 'both' as const, lesson: AREA, src: ['math14', 'bikbayeva', 'jumayev2020'] };
 
 export const MATH_AREA = lesson({
-  id: AREA, module: 'math-geo', level: 'core', minutes: 20, codes: ['2.2.7', '2.2.8', '2.2.9'], sourceIds: AM.src,
+  id: AREA, module: 'math-geo', level: 'core', stage: 'C', requires: ['math-perimeter', 'math-mult-div'], minutes: 20, codes: ['2.2.7', '2.2.8', '2.2.9'], sourceIds: AM.src,
   title: ["To'g'ri to'rtburchakning yuzi", 'Площадь прямоугольника'],
   blocks: [
     B.intro(["Xona poliga gilam yoki plitka kerak. Qancha sotib olish kerak? Bunda xonaning atrofini o'lchash yetmaydi — pol qancha joyni egallashini bilish kerak. Shu kattalik yuza deyiladi.",
@@ -140,7 +140,7 @@ const FR = 'math-fractions-intro';
 const FM = { lang: 'both' as const, lesson: FR, src: ['bikbayeva', 'math14'] };
 
 export const MATH_FRACTIONS = lesson({
-  id: FR, module: 'math-frac', level: 'intro', minutes: 20, codes: ['2.1.9'], sourceIds: FM.src,
+  id: FR, module: 'math-frac', level: 'intro', stage: 'C', requires: ['math-mult-div'], minutes: 20, codes: ['2.1.9'], sourceIds: FM.src,
   title: ['Ulushlar va kasrlar: asoslar', 'Доли и дроби: основы'],
   blocks: [
     B.intro(["To'rt do'st bitta pishiriqni teng bo'lishmoqchi. Har biri qancha oladi? «Bittadan» ham, «yarimtadan» ham emas — butunning to'rtdan biri. Kasrlar aynan shunday — butunning teng qismlarini nomlash uchun kerak.",

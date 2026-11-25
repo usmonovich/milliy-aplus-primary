@@ -1,6 +1,6 @@
 // Builders for academy lessons. A Tx is a single string (single-language
 // lesson) or [uz, ru]. Check questions are practice-pool items with rich feedback.
-import type { ChoiceQuestion, Locale, OpenQuestion, RichBlock, RichLesson } from '../../../core/types';
+import type { ChoiceQuestion, L, Locale, OpenQuestion, RichBlock, RichLesson } from '../../../core/types';
 import { tx, type Tx } from '../build';
 import { PRIMARY_SPEC } from '../spec';
 
@@ -40,18 +40,33 @@ function base(id: string, code: string, m: QMeta) {
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
+/** A calculation-only explanation gets a label, so every explanation reads as text in both languages. */
+function explain(t: Tx, m: QMeta): L {
+  const l = tx(t);
+  const r = m.rule ? tx(m.rule) : undefined;
+  const fix = (s: string, label: string, letters: RegExp, rule?: string) => {
+    let out = letters.test(s) ? s : `${label}: ${s}`;
+    if (out.length <= 40 && rule) out = `${out} ${rule}`;
+    return out;
+  };
+  return {
+    uz: fix(l.uz, "To'g'ri javob", /[A-Za-z]{3}/, r?.uz),
+    ru: fix(l.ru, 'Верный ответ', /[А-Яа-яЁё]/, r?.ru),
+  };
+}
+
 /** Choice question; each option is [text, whyWrong?] — the correct one needs no "why". */
 export function cq(id: string, code: string, m: QMeta, stem: Tx, options: [Tx, Tx?][], ans: string, expl: Tx): ChoiceQuestion {
   const specType = PRIMARY_SPEC.codes.find((c) => c.code === code)!.type;
   return {
     ...base(id, code, m), type: specType === 'V-Y-1' ? 'V-Y-1' : 'Y-1', stem: tx(stem),
-    choices: options.map(([text, why], i) => ({ id: LETTERS[i], text: tx(text), why: why ? tx(why) : undefined })), answer: ans, explanation: tx(expl),
+    choices: options.map(([text, why], i) => ({ id: LETTERS[i], text: tx(text), why: why ? tx(why) : undefined })), answer: ans, explanation: explain(expl, m),
   };
 }
 
 /** Short open answer (numbers accept equivalent notations). */
 export function oq(id: string, code: string, m: QMeta, stem: Tx, answer: Tx, expl: Tx, accept: { uz?: string[]; ru?: string[] } = {}, numeric?: number): OpenQuestion {
-  return { ...base(id, code, m), type: 'O-1', stem: tx(stem), answer: tx(answer), accept: { uz: accept.uz ?? [], ru: accept.ru ?? [] }, numeric, explanation: tx(expl) };
+  return { ...base(id, code, m), type: 'O-1', stem: tx(stem), answer: tx(answer), accept: { uz: accept.uz ?? [], ru: accept.ru ?? [] }, numeric, explanation: explain(expl, m) };
 }
 
 export function lesson(l: Omit<RichLesson, 'title'> & { title: Tx }): RichLesson {

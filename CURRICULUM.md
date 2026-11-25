@@ -8,7 +8,14 @@ Every check question explains each wrong option, the rule, the step-by-step solu
 Language courses are written separately for uz and ru (not translated). Math, pedagogy, psychology and reading have
 equal content in both languages.
 
-## Ready now (9 lessons)
+## Ready now (23 lessons)
+Batch 2 (2026-11-25): math foundations — place value; number systems and Roman numerals; addition and subtraction;
+multiplication and division; properties of operations; units of length and mass; perimeter; word problems.
+Pedagogy — basic concepts; didactic principles; lesson goals (Bloom, SMART); lesson types and structure.
+Psychology — primary-school age (leading activity, crisis of 7, school readiness); memory.
+Each lesson has an internal stage (Foundation → A+), soft prerequisites, module checks and a course final test.
+
+Batch 1:
 | Course | Module | Lesson |
 |---|---|---|
 | Ona tili (uz) | Fonetika va grafika | Tovush va harf |

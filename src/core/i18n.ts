@@ -149,7 +149,7 @@ const D = {
   debrief: ['Tahlil', 'Разбор'], yourPath: ['Sizning qarorlaringiz', 'Ваши решения'], bestChoice: ['Eng mos variant', 'Наиболее подходящий вариант'], classReacts: ['Sinf reaksiyasi', 'Реакция класса'],
   simScore: ['Qarorlar sifati', 'Качество решений'],
   // academy
-  courses: ['Kurslar', 'Курсы'], blockOverviews: ["Bo'limlar sharhi", 'Обзоры разделов'], nextLesson: ['Keyingi dars', 'Следующий урок'],
+  courses: ['Kurslar', 'Курсы'], moduleCheck: ["Modul bo'yicha nazorat", 'Проверка по модулю'], courseFinal: ['Kurs yakuniy testi', 'Итоговый тест курса'], blockOverviews: ["Bo'limlar sharhi", 'Обзоры разделов'], nextLesson: ['Keyingi dars', 'Следующий урок'],
   lessonsCount: ['{n} ta dars', '{n} уроков'], requiresFirst: ['Avval: {t}', 'Сначала: {t}'],
   bIntro: ['Kirish', 'Введение'], bExplain: ['Tushuntirish', 'Объяснение'], bDefinition: ["Ta'rif", 'Определение'], bRule: ['Asosiy qoida', 'Главное правило'],
   bFormula: ['Formula', 'Формула'], bWhy: ['Nega aynan shunday?', 'Почему именно так?'], bExample: ['Misol tahlili', 'Разбор примера'], bTable: ['Jadval', 'Таблица'],

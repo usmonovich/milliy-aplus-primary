@@ -231,6 +231,8 @@ export interface RichLesson {
   title: L;
   minutes: number;
   level: 'intro' | 'core' | 'advanced';
+  /** Internal mastery stage Foundation → A+ (not an official certificate level). */
+  stage?: LevelId;
   /** Official spec codes this lesson prepares for. */
   codes: string[];
   /** Lessons that should come first (soft prerequisite). */

@@ -1,5 +1,8 @@
 // Academy: courses → modules → full lessons.
-import { BookOpenText, Brain, Calculator, CheckCircle2, ChevronRight, Circle, GraduationCap, Languages } from 'lucide-react';
+import { useState } from 'react';
+import { BookOpenText, Brain, Calculator, CheckCircle2, ChevronRight, Circle, ClipboardCheck, GraduationCap, Languages, Trophy } from 'lucide-react';
+import type { Question } from '../core/types';
+import { PracticeSession } from '../ui/practice';
 import type { Course, Track } from '../core/types';
 import { useStore } from '../core/store';
 import { MODULES, academyLesson, coursesFor, lessonsOfCourse, moduleOf } from '../content/primary';
@@ -46,6 +49,15 @@ export function CourseScreen({ id }: { id: string }) {
   const lessons = lessonsOfCourse(id);
   const next = lessons.find((l) => !progress[l.id]?.done);
   const modules = MODULES.filter((m) => lessons.some((l) => l.module === m.id));
+  const [test, setTest] = useState<{ title: string; items: Question[] } | null>(null);
+  const pick = (ls: typeof lessons, n: number) => [...ls.flatMap((l) => l.check)].sort(() => Math.random() - 0.5).slice(0, n);
+  if (test) {
+    return (
+      <Screen title={test.title} back={true}>
+        <PracticeSession items={test.items} mode="test" title={test.title} onDone={() => setTest(null)} />
+      </Screen>
+    );
+  }
   return (
     <Screen title={c(course.title)} back="learn">
       {modules.map((m) => (
@@ -65,6 +77,7 @@ export function CourseScreen({ id }: { id: string }) {
                     <div className="min-w-0 flex-1">
                       <div className="font-semibold leading-tight">{c(l.title)}</div>
                       <div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs text-ink-soft">
+                        {l.stage && <span className="rounded bg-brand-soft px-1.5 font-semibold text-brand">{l.stage === 'F' ? 'Foundation' : l.stage}</span>}
                         <span>{t(`lv_${l.level}`)} · {l.minutes} {t('minutes')}</span>
                         {p && <Stars n={starsFor(p.best / 100)} size={12} />}
                         {isNext && <b className="text-brand">{t('nextLesson')}</b>}
@@ -76,9 +89,21 @@ export function CourseScreen({ id }: { id: string }) {
                 </Card>
               );
             })}
+            {lessons.filter((l) => l.module === m.id).length > 1 && (
+              <button type="button" onClick={() => setTest({ title: `${t('moduleCheck')}: ${c(m.title)}`, items: pick(lessons.filter((l) => l.module === m.id), 10) })}
+                className="flex min-h-[3rem] items-center gap-2 rounded-2xl border border-dashed border-brand/40 px-4 text-sm font-semibold text-brand">
+                <ClipboardCheck size={18} />{t('moduleCheck')}
+              </button>
+            )}
           </div>
         </section>
       ))}
+      {lessons.length > 2 && (
+        <button type="button" onClick={() => setTest({ title: t('courseFinal'), items: pick(lessons, 20) })}
+          className="mb-4 flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-2xl bg-gold/15 font-semibold text-gold">
+          <Trophy size={20} />{t('courseFinal')}
+        </button>
+      )}
     </Screen>
   );
 }
