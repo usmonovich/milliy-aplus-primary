@@ -34,6 +34,11 @@ export const UZ_SOUNDS = lesson({
       'Harflar: t, o, n, g — 4 ta.',
       "«ng» — bitta burun tovushi [ng]: [t] [o] [ng] — 3 ta tovush.",
     ], '3 ta tovush'),
+    B.example("«G'isht» so'zida nechta harf va nechta tovush bor?", [
+      "Harflar: g', i, s, h, t — 5 ta (g' — bitta harf, belgi alohida sanalmaydi).",
+      "Talaffuz qilamiz: [g‘] [i] [sh] [t] — 4 ta tovush, chunki «sh» bitta tovush.",
+      "Tekshirish: har bir tovushga bitta fishka qo'yamiz — 4 ta fishka.",
+    ], '5 ta harf, 4 ta tovush'),
     B.exception(null, [
       "Bo'g'in ko'chirishda harf birikmalari ajratilmaydi: ma-shina, to-ngi (mas-hina emas).",
       "o' va g' harflaridagi belgi ham, so'z ichidagi tutuq belgisi ham alohida tovush sifatida sanalmaydi.",
@@ -78,6 +83,10 @@ export const UZ_SOUNDS = lesson({
         ["Qoidani yod oldirish", "Tovush tajribasisiz qoida ishlamaydi."],
         ["So'zni bo'g'inlarga ajratish", "Bo'g'inlar harf birikmasini ko'rsatmaydi."],
       ], 'B', "[ch] [o] [y] — 3 ta tovush; model buni ko'rinadigan qiladi."),
+    cq('a-uz-th-c5', '1.1.1', { ...TM, rule: "ch — ikki harf, bitta tovush." },
+      "«Chiroq» so'zida nechta harf va nechta tovush bor?",
+      [["6 ta harf, 5 ta tovush"], ["6 ta harf, 6 ta tovush", "«ch» ikki tovush deb sanalgan — u bitta tovush."], ["5 ta harf, 5 ta tovush", "«ch» yozuvda ikki harf: c va h."], ["5 ta harf, 6 ta tovush", "Harf va tovush soni almashtirilgan."]],
+      'A', "Harflar: c, h, i, r, o, q — 6 ta; tovushlar: [ch] [i] [r] [o] [q] — 5 ta."),
   ],
 });
 

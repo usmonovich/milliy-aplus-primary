@@ -171,6 +171,11 @@ export const MATH_FRACTIONS = lesson({
       ["Surat maxrajdan katta bo'lsa ($\\frac{5}{4}$), kasr 1 dan katta — bu noto'g'ri kasr.", 'Если числитель больше знаменателя ($\\frac{5}{4}$), дробь больше 1 — это неправильная дробь.'],
       ["Turli butunlarning ulushlarini taqqoslab bo'lmaydi: katta tarvuzning $\\frac{1}{4}$ qismi kichik olmaning $\\frac{1}{2}$ qismidan katta bo'lishi mumkin.", 'Доли разных целых сравнивать нельзя: $\\frac{1}{4}$ большого арбуза может быть больше $\\frac{1}{2}$ маленького яблока.'],
     ]),
+    B.example(["Tasma 8 ta teng bo'lakka bo'lingan, 3 tasi bo'yalgan. Tasmaning qanday qismi bo'yalgan va qanday qismi bo'yalmagan?", 'Полоска разделена на 8 равных частей, 3 из них закрашены. Какая часть полоски закрашена и какая нет?'], [
+      ["Maxraj — teng bo'laklar soni: 8.", 'Знаменатель — число равных частей: 8.'],
+      ["Surat — bo'yalgan bo'laklar: 3 → $\\frac{3}{8}$.", 'Числитель — закрашенные части: 3 → $\\frac{3}{8}$.'],
+      { s: ["Bo'yalmagan: $8 - 3 = 5$ bo'lak; birgalikda butun:", 'Не закрашено: $8 - 3 = 5$ частей; вместе — целое:'], tex: '\\frac{3}{8} + \\frac{5}{8} = \\frac{8}{8} = 1' },
+    ], ["$\\frac{3}{8}$ bo'yalgan, $\\frac{5}{8}$ bo'yalmagan", 'Закрашено $\\frac{3}{8}$, не закрашено $\\frac{5}{8}$']),
     B.mistake(null, [
       ["«$\\frac{1}{5} > \\frac{1}{3}$, chunki 5 > 3» — natural sonlar qoidasini kasrlarga ko'chirish.", '«$\\frac{1}{5} > \\frac{1}{3}$, потому что 5 > 3» — перенос правил натуральных чисел на дроби.'],
       ["Teng bo'lmagan qismlarni «to'rtdan bir» deb atash.", 'Называть «четвертью» неравные части.'],

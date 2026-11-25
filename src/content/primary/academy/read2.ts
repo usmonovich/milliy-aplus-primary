@@ -162,6 +162,11 @@ export const READ_HIDDEN = lesson({
       ["To'g'ridan-to'g'ri: uyda o'yin bor.", 'Прямо: дома есть игры.'],
       ["Tagma'no: qiyin vaziyatda ham yaxshi tomon topish mumkin; ona qizini qo'llab-quvvatlayapti.", 'Подтекст: и в неприятной ситуации можно найти хорошее; мама поддерживает дочь.'],
     ], ["Ijobiy qarash va g'amxo'rlik", 'Позитивный взгляд и забота']),
+    B.example(["«Kitob yarmarkasi» e'lonida «Kitoblarni sotib bo'lmaydi — ularni almashtirish mumkin» deyilgan. Bu qoida ortida qanday maqsad bor?", 'В объявлении «Книжная ярмарка» сказано: «Книги нельзя купить — их можно обменять». Какая цель стоит за этим правилом?'], [
+      ["To'g'ridan-to'g'ri: pul bilan sotib olish mumkin emas.", 'Прямо: за деньги купить нельзя.'],
+      ["Faktlarni bog'laymiz: har bir sinf o'qilgan kitob olib keladi, bitta kitobga bitta kitob.", 'Связываем факты: каждый класс приносит прочитанные книги, одна книга — за одну.'],
+      ["Talqin: tashkilotchilar kitoblar «yangi hayot» topishini va o'quvchilar bir-biri bilan o'qiganini baham ko'rishini xohlaydi.", 'Интерпретация: организаторы хотят, чтобы книги получили «вторую жизнь», а ученики делились прочитанным.'],
+    ], ["Kitobxonlikni rivojlantirish va baham ko'rish", 'Развивать чтение и учить делиться']),
     B.mistake(null, [
       ["Tagma'no o'rniga syujetni qayta aytish.", 'Пересказывать сюжет вместо подтекста.'],
       ["Matnga aloqasi yo'q «chuqur» talqin: dalilsiz fantaziya.", '«Глубокая» интерпретация без связи с текстом — фантазия без доказательств.'],

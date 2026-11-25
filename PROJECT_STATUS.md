@@ -1,4 +1,12 @@
-# Milliy A+ Primary — Project status (2026-11-25, v0.5)
+# Milliy A+ Primary — Project status (2026-11-25, v0.6)
+
+## New in v0.6
+- v0.6.0: 12 lessons — reading (characters; author's position, fact/opinion; literary vs informational; PIRLS basics)
+  and math (equations; unknown components; divisibility; divisibility tests; comparing fractions; operations with
+  fractions; time; motion). 13 older lessons upgraded to ≥ 3 examples, a «try» task and ≥ 5 checks.
+- Audit: stricter lesson standard, semantic-duplicate check (same code + same numbers), independent re-solve of the new
+  numeric answers (57 tests).
+- Academy total: 45 lessons. Continuation point: CURRICULUM.md.
 
 ## New in v0.5
 - 4 reading-literacy lessons with original texts and evidence-based answers; 21 new check questions.

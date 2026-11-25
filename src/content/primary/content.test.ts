@@ -227,15 +227,84 @@ describe('curriculum coverage', () => {
   });
 });
 
+describe('independent re-solve (academy batch 3: math and reading numbers)', () => {
+  const divisors = (n: number) => Array.from({ length: n }, (_, i) => i + 1).filter((d) => n % d === 0);
+  const isPrime = (n: number) => divisors(n).length === 2;
+  const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+  const hhmm = (min: number) => { const m = ((min % 1440) + 1440) % 1440; return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
+  const open: Record<string, string> = {
+    // equations and unknown components
+    'a-m-eq-t1': String(50 - 18), 'a-m-eq-c1': String(63 - 27), 'a-m-eq-c3': String(84 - 39),
+    'a-m-uk-t1': String(84 / 6), 'a-m-uk-c1': String(14 * 9), 'a-m-uk-c2': String(72 / 8), 'a-m-uk-c3': String(9 * 4 + 15),
+    // divisibility
+    'a-m-dv-t1': String(range(11, 19).filter(isPrime).length), 'a-m-dv-c1': String(divisors(36).length),
+    'a-m-dv-c3': String(range(1, 50).filter((n) => n % 6 === 0).length),
+    'a-m-dt-t1': String(range(0, 9).find((d) => (400 + 10 * d + 6) % 3 === 0)),
+    'a-m-dt-c3': String([120, 135, 144, 150, 165].filter((n) => n % 2 === 0 && n % 5 === 0).length),
+    // fractions
+    'a-m-fc-c3': String(range(1, 12).find((n) => n * 4 > 3 * 12)),
+    'a-m-fo-t1': String((32 / 4) * 1), 'a-m-fo-c1': `${3 + 5}/11`, 'a-m-fo-c2': String((27 / 3) * 2), 'a-m-fo-c3': String((24 / 3) * 8),
+    'a-m-fo-c6': String(36 - (36 / 9) * 5),
+    // time
+    'a-m-tm-t1': String(3 * 60), 'a-m-tm-c1': String(2 * 60 + 40), 'a-m-tm-c2': hhmm(21 * 60 + 35 + 3 * 60 + 50),
+    // motion
+    'a-m-mo-t1': String(15 * 4), 'a-m-mo-c1': String(20 / 5), 'a-m-mo-c2': String(360 / (50 + 70)), 'a-m-mo-c3': String((15 + 12) * 3),
+    'a-m-mo-c5': String(220 / 2 - 60),
+    // reading items with arithmetic
+    'a-r-typ-c4': String(12 - 9), 'a-r-prl-c4': String(30 + 30),
+  };
+  const choice: Record<string, string> = {
+    'a-m-eq-c4': String(56 / 8),
+    'a-m-dv-c2': String([41, 51, 57, 91].find(isPrime)),
+    'a-m-dt-c1': String([3726, 3724, 3723, 3720].find((n) => n % 9 === 0)).replace(/^(\d)(\d{3})$/, '$1 $2'),
+  };
+  it('open answers match values computed from the problem data', async () => {
+    const { ACADEMY_QUESTIONS } = await import('./academy');
+    for (const [id, want] of Object.entries(open)) {
+      const q = ACADEMY_QUESTIONS.find((x) => x.id === id);
+      expect(q, id).toBeDefined();
+      if (!q || q.type !== 'O-1') throw new Error(`${id}: open item expected`);
+      expect(q.answer.uz, id).toBe(want);
+      if (q.numeric !== undefined) expect(q.numeric, id).toBe(Number(want));
+    }
+  });
+  it('correct options match values computed from the problem data', async () => {
+    const { ACADEMY_QUESTIONS } = await import('./academy');
+    for (const [id, want] of Object.entries(choice)) {
+      const q = ACADEMY_QUESTIONS.find((x) => x.id === id);
+      if (!q || q.type === 'O-1' || q.type === 'Y-2') throw new Error(`${id}: choice item expected`);
+      expect(q.choices.find((c) => c.id === q.answer)!.text.uz, id).toBe(want);
+    }
+  });
+});
+
 describe('academy lesson quality', () => {
   it('every lesson has examples, a teaching-method part, a summary and at least 5 check questions', async () => {
     const { ACADEMY } = await import('./academy');
     for (const l of ACADEMY) {
       const kinds = l.blocks.map((b) => b.kind);
-      expect(kinds.filter((k) => k === 'example').length, `${l.id} examples`).toBeGreaterThanOrEqual(2);
+      expect(kinds.filter((k) => k === 'example').length, `${l.id} examples`).toBeGreaterThanOrEqual(3);
       expect(kinds.includes('method'), `${l.id} method`).toBe(true);
       expect(kinds.includes('summary'), `${l.id} summary`).toBe(true);
-      expect(l.check.length, `${l.id} checks`).toBeGreaterThanOrEqual(4);
+      expect(kinds.includes('try'), `${l.id} try`).toBe(true);
+      expect(l.check.length, `${l.id} checks`).toBeGreaterThanOrEqual(5);
+    }
+  });
+  it('has no semantic duplicates: same code with the same numbers (or same numeric answer and numbers)', async () => {
+    const { ACADEMY_QUESTIONS } = await import('./academy');
+    const nums = (q: Question) => {
+      const s = q.lang === 'uz' ? q.stem.uz : q.stem.ru;
+      return (s.match(/\d+(?:[  ]\d{3})*/g) ?? []).map((x) => x.replace(/[  ]/g, ''));
+    };
+    const ans = (q: Question) => (q.type === 'O-1' ? q.answer.uz : q.type === 'Y-2' ? '' : q.choices.find((c) => c.id === q.answer)!.text.uz);
+    const qs = ACADEMY_QUESTIONS.map((q) => ({ q, n: nums(q) })).filter((x) => x.n.length >= 2);
+    for (let i = 0; i < qs.length; i++) for (let j = i + 1; j < qs.length; j++) {
+      const a = qs[i], b = qs[j];
+      if (a.q.code !== b.q.code) continue;
+      const sameMultiset = [...a.n].sort().join(',') === [...b.n].sort().join(',');
+      const sameSet = [...new Set(a.n)].sort().join(',') === [...new Set(b.n)].sort().join(',');
+      const sameAnswer = ans(a.q) !== '' && ans(a.q) === ans(b.q);
+      expect(sameMultiset || (sameSet && sameAnswer), `${a.q.id} ~ ${b.q.id} (${a.n.join(' ')})`).toBe(false);
     }
   });
   it('every wrong option of an academy check question explains why it is wrong', async () => {

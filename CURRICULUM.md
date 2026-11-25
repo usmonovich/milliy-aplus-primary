@@ -8,7 +8,16 @@ Every check question explains each wrong option, the rule, the step-by-step solu
 Language courses are written separately for uz and ru (not translated). Math, pedagogy, psychology and reading have
 equal content in both languages.
 
-## Ready now (33 lessons)
+## Ready now (45 lessons)
+Batch 4 (v0.6.0): reading — characters (traits from actions, speech, reactions); author's position, fact vs opinion;
+literary vs informational texts; PIRLS basics (4 processes, 2 purposes, item formats, answer algorithm).
+Math — equations from zero; unknown components of the four operations; divisibility (multiples, divisors, primes);
+divisibility tests 2, 3, 5, 9, 10 (with derivation); comparing fractions; operations with fractions (same denominators,
+fraction of a number, number from its fraction); time (units, intervals, 24-hour clock); motion (s = v·t, meeting,
+opposite directions). New modules: «Tenglamalar / Уравнения», «Ta'lim metodlari / Методы обучения», «Motivatsiya,
+emotsiyalar… / Мотивация, эмоции…».
+Quality pass: every lesson now has ≥ 3 worked examples, a «try» task and ≥ 5 checks (13 older lessons upgraded).
+
 Batch 3 (v0.5): reading literacy — explicit information (PIRLS 1), straightforward inferences (PIRLS 2),
 subtext and interpretation, cause and effect. Original texts; every answer shows the sentence that proves it.
 Quality pass: missing worked examples added to «Имя существительное», «Ot so'z turkumi», «Тема и основная мысль», «Внимание».
@@ -21,12 +30,11 @@ Russian — vowels and consonants (hard/soft, voiced/voiceless); stress and unst
 Uzbek — unli va undoshlar; bo'g'in, ko'chirish va urg'u; so'z tarkibi (o'zak va qo'shimchalar).
 
 ## Continuation point (next batch, in this order)
-1. Reading literacy (remaining 4 of the v0.5 brief): characters; author's position and fact vs opinion; literary vs informational text; PIRLS basics.
-2. Math: equations from zero; unknown components; divisibility and its tests; comparing fractions; operations with fractions; time units; motion (speed, time, distance).
-3. Russian: animate/inanimate; gender; number; cases; declension; adjective.
-4. Uzbek: otlarning grammatik xususiyatlari; egalik; kelishiklar; sifat; son; fe'l. Verify j / g' notes in «Unli va undosh tovushlar» against Qosimova et al.
-5. Pedagogy: teaching methods; verbal; visual; practical; problem-based; differentiated instruction.
-6. Psychology: thinking; perception; imagination; motivation; emotions; individual differences.
+1. (done in v0.6.0) Reading literacy 4 lessons; math 8 lessons.
+2. Russian: animate/inanimate; gender; number; cases; declension; adjective.
+3. Uzbek: otlarning grammatik xususiyatlari; egalik; kelishiklar; sifat; son; fe'l. Verify j / g' notes in «Unli va undosh tovushlar» against Qosimova et al.
+4. Pedagogy: teaching methods; verbal; visual; practical; problem-based; differentiated instruction.
+5. Psychology: thinking; perception; imagination; motivation; emotions; individual differences.
 Each lesson has an internal stage (Foundation → A+), soft prerequisites, module checks and a course final test.
 
 Batch 1:
@@ -72,9 +80,12 @@ conflicts, psychological safety, peer relations.
 ## Quality status
 All lessons and items are `auto_checked` (automated audit + author re-check). None is expert-reviewed yet.
 
-## Audit (automated, `npm test`, 54 tests)
+## Audit (automated, `npm test`, 57 tests)
 - Near-duplicate stems across all hand-written items (also catches bare-arithmetic stems).
-- Independent re-solve of variant-2 math answers.
-- Every lesson: ≥ 2 worked examples, a teaching-method part, a summary, ≥ 4 check questions; prerequisites exist.
+- Semantic duplicates in academy questions: same spec code with the same multiset of numbers (≥ 2), or the same answer
+  and the same numbers.
+- Independent re-solve of variant-2 math answers and of all numeric answers of the batch-4 math/reading lessons
+  (expected values computed in code from the problem data).
+- Every lesson: ≥ 3 worked examples, a «try» task, a teaching-method part, a summary, ≥ 5 check questions; prerequisites exist.
 - Every wrong option of every lesson question explains why it is wrong.
-Not automated yet: semantic duplicates with different wording, repeated number patterns, source-level fact checks.
+Not automated yet: duplicates with different wording and different numbers, source-level fact checks.

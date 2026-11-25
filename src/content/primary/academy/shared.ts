@@ -45,6 +45,11 @@ export const PED_FORMATIVE = lesson({
       ["2-variant: butun sinfga xuddi o'sha usulda qayta tushuntirish — 13 o'quvchi zerikadi, 12 tasiga esa usul allaqachon yordam bermagan. ⚠️", 'Вариант 2: объяснить заново всему классу тем же способом — 13 учеников скучают, а 12 этот способ уже не помог. ⚠️'],
       ["3-variant: guruhlash — 13 o'quvchiga qo'llash topshiriqlari, 12 o'quvchi bilan boshqa model (o'nliklar va birliklar, son o'qi) orqali qisqa mashg'ulot, oxirida yana tekshiruv. ✅", 'Вариант 3: группировка — 13 ученикам задания на применение, с 12 — короткое занятие с другой моделью (десятки и единицы, числовая прямая), в конце повторная проверка. ✅'],
     ], ["Formativ ma'lumot rejani o'zgartirdi — bu uning asosiy vazifasi.", 'Формативные данные изменили план — в этом их главная функция.']),
+    B.example(["Darsning o'rtasida «tayanch savol»: $52 - 17 = ?$ A) 45 B) 35 C) 69 D) 34. O'quvchilar harfli kartochkani bir vaqtda ko'taradi. Natijadan qanday foydalaniladi?", 'В середине урока «ключевой вопрос»: $52 - 17 = ?$ A) 45 B) 35 C) 69 D) 34. Ученики одновременно поднимают карточки с буквами. Как использовать результат?'], [
+      ["Har bir noto'g'ri variant — aniq xato: A — birliklarda kattadan kichikni ayirgan ($7 - 2$); C — qo'shgan; D — $12 - 7$ ni noto'g'ri hisoblagan.", 'Каждый неверный вариант — конкретная ошибка: A — в единицах вычли из большего меньшее ($7 - 2$); C — сложили; D — ошиблись в $12 - 7$.'],
+      ["O'qituvchi 10 soniyada butun sinfni ko'radi: ko'pchilik B — davom etadi; A ko'p — o'nlik almashtirishga model bilan qaytadi.", 'Учитель за 10 секунд видит весь класс: большинство B — идёт дальше; много A — возвращается к переходу через десяток на модели.'],
+      ["Qaror darhol qabul qilinadi — dars oxirini kutmasdan.", 'Решение принимается сразу, не дожидаясь конца урока.'],
+    ], ["Javob variantlari xatolarni tashxislaydigan qilib tuziladi", 'Варианты ответа составляются так, чтобы диагностировать ошибки']),
     B.mistake(null, [
       ["Formativ natijalarni jurnalga baho sifatida qo'yish — o'quvchilar xatodan qo'rqib, haqiqiy tushunishini yashiradi.", 'Ставить формативные результаты в журнал — ученики, боясь ошибок, скрывают реальное понимание.'],
       ["Ma'lumot yig'ish, lekin darsni o'zgartirmaslik.", 'Собирать данные, но не менять урок.'],
@@ -106,6 +111,10 @@ export const PED_FORMATIVE = lesson({
         [['Intizomni nazorat qilish', 'Контроль дисциплины'], ['Usul tushunish haqida, intizom haqida emas.', 'Приём — о понимании, а не о дисциплине.']],
         [["O'quvchilar reytingi", 'Рейтинг учеников'], ["Solishtirish maqsad emas.", 'Сравнение учеников — не цель.']],
       ], 'A', ["Tezkor o'z-o'zini baholash → o'qituvchining qarori.", 'Быстрая самооценка → решение учителя.']),
+    cq('a-p-fa-c5', '3.6.1', { ...PM, rule: ["Tayanch savol — darsning hal qiluvchi nuqtasida butun sinf tushunishini tez tekshirish.", 'Ключевой вопрос — быстрая проверка понимания всего класса в решающей точке урока.'] },
+      ["Dars o'rtasidagi «tayanch savol»ning (hinge question) asosiy vazifasi nima?", 'Какова главная функция «ключевого вопроса» (hinge question) в середине урока?'],
+      [[["Butun sinfning tushunishini tez ko'rib, davom etish yoki qaytish haqida qaror qabul qilish", 'Быстро увидеть понимание всего класса и решить: идти дальше или вернуться']], [["Chorak bahosini qo'yish", 'Выставить четвертную отметку'], ["Bu summativ baholash vazifasi.", 'Это функция суммативного оценивания.']], [["Eng kuchli o'quvchini aniqlash", 'Выявить самого сильного ученика'], ["Maqsad — reyting emas, darsni boshqarish.", 'Цель — не рейтинг, а управление уроком.']], [["Darsdagi bo'sh vaqtni to'ldirish", 'Заполнить свободное время урока'], ["Tayanch savol rejalashtirilgan qaror nuqtasi.", 'Ключевой вопрос — запланированная точка решения.']]],
+      'A', ["Har bir variant ma'lum xatoni ko'rsatadi — o'qituvchi darsni shu ma'lumot asosida o'zgartiradi.", 'Каждый вариант показывает определённую ошибку — учитель меняет урок на основе этих данных.']),
   ],
 });
 
@@ -150,6 +159,15 @@ export const PSY_ATTENTION = lesson({
       ["Harakatlarni ajratish: avval tinglash, keyin yozish uchun alohida vaqt berish.", 'Разделить действия: сначала слушаем, потом даём отдельное время на запись.'],
       ["Doskadagi yozuvni qisqa va tuzilgan qilish (raqamlangan qadamlar).", 'Делать записи на доске краткими и структурированными (пронумерованные шаги).'],
     ], ["Ikki ishni ketma-ket qilish", 'Выполнять два действия последовательно']),
+    B.example(["1-sinfda 35 daqiqa davomida bir xil yozuv mashqi berildi; 15-daqiqadan keyin bolalar chalg'iy boshladi. Darsni qanday qayta tuzish mumkin?", 'В 1 классе 35 минут подряд дано одинаковое упражнение в письме; после 15-й минуты дети начали отвлекаться. Как перестроить урок?'], [
+      ["Sabab: kichik maktab yoshida diqqat barqarorligi qisqa, bir xillik uni tez pasaytiradi.", 'Причина: у младших школьников устойчивость внимания невелика, однообразие быстро её снижает.'],
+      ["Faoliyatni qisqa bloklarga bo'lish: yozish → og'zaki ish → harakatli daqiqa → yana yozish.", 'Разбить работу на короткие блоки: письмо → устная работа → физкультминутка → снова письмо.'],
+      ["Har bir o'tishda aniq signal va qisqa ko'rsatma.", 'При каждом переходе — чёткий сигнал и короткая инструкция.'],
+    ], ["Faoliyat almashinuvi — diqqatni saqlashning asosiy vositasi", 'Смена деятельности — главный способ удержать внимание']),
+    B.try(cq('a-s-at-t1', '3.2.2', { ...SM, d: 1, rule: ["Ixtiyoriy diqqat — maqsad va iroda kuchi bilan.", 'Произвольное внимание — по цели и с волевым усилием.'] },
+      ["Qaysi vaziyat ixtiyoriy diqqatga misol?", 'Какая ситуация — пример произвольного внимания?'],
+      [[["O'quvchi qiziq bo'lmasa ham, qoidani o'qishga o'zini majburlaydi", 'Ученик заставляет себя читать правило, хотя ему неинтересно']], [["Sinfga qush uchib kirganda hamma unga qaraydi", 'Когда в класс залетела птица, все смотрят на неё'], ["Bu ixtiyorsiz diqqat: yangi va kutilmagan narsa.", 'Это непроизвольное внимание: новое и неожиданное.']], [["O'yinga berilib ketgan bola vaqtni sezmaydi", 'Увлёкшийся игрой ребёнок не замечает времени'], ["Kuch talab qilinmaydi — qiziqish ushlab turadi.", 'Усилия не нужно — удерживает интерес.']], [["Kuchli tovushdan cho'chib ketish", 'Вздрогнуть от громкого звука'], ["Bu ixtiyorsiz reaksiya.", 'Это непроизвольная реакция.']]],
+      'A', ["Maqsad bor va iroda kuchi kerak — ixtiyoriy diqqat.", 'Есть цель и нужно усилие — произвольное внимание.'])),
     B.mistake(null, [
       ["Doimiy tanbeh «Diqqatli bo'l!» — usul bermaydi, xavotirni oshiradi.", 'Постоянное «Будь внимателен!» — не даёт способа и повышает тревожность.'],
       ["Uzoq bir xil topshiriqlar.", 'Длинные однообразные задания.'],
@@ -201,6 +219,10 @@ export const PSY_ATTENTION = lesson({
         [["Ixtiyoriy diqqat yosh bilan rivojlanadi", 'Произвольное внимание развивается с возрастом'], ['Rivojlanish psixologiyasida tasdiqlangan.', 'Подтверждено возрастной психологией.']],
         [["Qiziqish diqqatni kuchaytiradi", 'Интерес усиливает внимание'], ['Tasdiqlangan.', 'Подтверждено.']],
       ], 'B', ["«O'qitish uslublari» gipotezasi tasdiqlanmagan.", 'Гипотеза «стилей обучения» не подтверждена.']),
+    cq('a-s-at-c5', '3.4.4', { ...SM, rule: ["Diqqatni ko'chirish sekin — aniq signal va o'tish mashqi yordam beradi.", 'Переключение внимания медленное — помогают чёткий сигнал и переходное упражнение.'] },
+      ["Matematikadan o'qish darsiga o'tilgach, bolalar hali ham misollar haqida gaplashyapti. Diqqatning qaysi xususiyati va o'qituvchining eng to'g'ri harakati?", 'После перехода от математики к чтению дети всё ещё обсуждают примеры. Какое свойство внимания задействовано и как лучше поступить учителю?'],
+      [[["Ko'chirish; aniq signal va qisqa o'tish mashqi (masalan, 1 daqiqalik nafas yoki qo'shiq) berish", 'Переключение; дать чёткий сигнал и короткое переходное упражнение (например, минутку дыхания или песенку)']], [["Hajm; doskaga ko'proq ma'lumot yozish", 'Объём; написать на доске больше информации'], ["Muammo bir vaqtda qamrab olishda emas, o'tishda.", 'Проблема не в объёме, а в переходе.']], [["Taqsimlash; ikki ishni bir vaqtda berish", 'Распределение; дать два дела одновременно'], ["Bu diqqatni yanada tarqatadi.", 'Это ещё больше рассеет внимание.']], [["Barqarorlik; bolalarni jazolash", 'Устойчивость; наказать детей'], ["Jazo diqqatni ko'chirishni o'rgatmaydi.", 'Наказание не учит переключаться.']]],
+      'A', ["Kichik maktab yoshida diqqatni ko'chirish sekin; o'tishni tashkil qilish — o'qituvchining vazifasi.", 'У младших школьников переключение внимания медленное; организовать переход — задача учителя.']),
   ],
 });
 
@@ -244,6 +266,11 @@ export const READ_THEME = lesson({
       ["Juda umumiy fikr («Do'stlik yaxshi») yoki faqat bir qismga tegishli fikr.", 'Слишком общая мысль («Дружба — это хорошо») или мысль только об одной части.'],
       ["Mavzu va asosiy fikrni chalkashtirish.", 'Путаница темы и основной мысли.'],
     ]),
+    B.example(["Axborot matni: «Kuzda ko'plab qushlar issiq o'lkalarga uchib ketadi. U yerda ular qishda ham ozuqa topadi. Bahorda esa qaytib kelib, uya quradi.» Mavzu va asosiy fikrni aniqlang.", 'Информационный текст: «Осенью многие птицы улетают в тёплые края. Там они и зимой находят корм. А весной возвращаются и вьют гнёзда». Определите тему и основную мысль.'], [
+      ["Takrorlanadigan kalit so'zlar: qushlar, uchib ketadi / qaytib keladi.", 'Повторяющиеся ключевые слова: птицы, улетают / возвращаются.'],
+      ["Mavzu (nima haqida): qushlarning ko'chishi.", 'Тема (о чём): перелёт птиц.'],
+      ["Asosiy fikr (gap): 1-gap umumiy fikrni beradi, qolganlari uni tushuntiradi.", 'Основная мысль (предложение): первое предложение даёт общую мысль, остальные её поясняют.'],
+    ], ["Qushlar ozuqa topish uchun kuzda issiq o'lkalarga uchib ketadi va bahorda qaytadi", 'Птицы осенью улетают в тёплые края, чтобы находить корм, а весной возвращаются']),
     B.try(cq('a-r-ti-t1', '1.4.2', { ...RM, d: 1 },
       ["Quyidagilardan qaysi biri «Yangi o'quvchi» matnining asosiy fikri?", 'Что из этого — основная мысль текста «Новенький»?'],
       [
@@ -293,6 +320,10 @@ export const READ_THEME = lesson({
       ["Chumoli va ninachi haqidagi matnning asosiy fikri qaysi?", 'Какова основная мысль текста о муравье и стрекозе?'],
       [[["Oldindan qilingan mehnat qiyin paytda qutqaradi", 'Труд заранее выручает в трудное время']], [["Chumoli va ninachi", 'Муравей и стрекоза'], ["Bu qahramonlar, fikr emas.", 'Это герои, а не мысль.']], [["Qishda sovuq bo'ladi", 'Зимой холодно'], ["Bu tafsilot.", 'Это деталь.']], [["Ninachi o'ynadi", 'Стрекоза играла'], ["Bu syujet qismi.", 'Это часть сюжета.']]],
       'A', ["Qahramonlarni solishtirish g'oyani ochadi.", 'Сравнение героев раскрывает идею.']),
+    cq('a-r-ti-c5', '1.2.7', { ...RM, rule: ["Mavzu — so'z birikmasi, asosiy fikr — gap.", 'Тема — словосочетание, основная мысль — предложение.'] },
+      ["Qaysi sarlavha mavzuni emas, asosiy fikrni ifodalaydi?", 'Какой заголовок выражает не тему, а основную мысль?'],
+      [[["«Mehnatning mevasi shirin»", '«Труд приносит сладкие плоды»']], [["«Bahor»", '«Весна»'], ["Bu mavzu: so'z, fikr yo'q.", 'Это тема: слово, а не утверждение.']], [["«Chumoli»", '«Муравей»'], ["Bu qahramon nomi.", 'Это имя героя.']], [["«Kuzda»", '«Осенью»'], ["Bu vaqtni bildiradi, fikrni emas.", 'Это обозначение времени, а не мысль.']]],
+      'A', ["Asosiy fikr — muallif aytmoqchi bo'lgan to'liq fikr.", 'Основная мысль — законченное утверждение автора.']),
   ],
 });
 
