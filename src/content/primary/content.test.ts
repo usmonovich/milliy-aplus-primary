@@ -226,3 +226,28 @@ describe('curriculum coverage', () => {
     expect(summary.lessons).toBeGreaterThan(0);
   });
 });
+
+describe('academy lesson quality', () => {
+  it('every lesson has examples, a teaching-method part, a summary and at least 5 check questions', async () => {
+    const { ACADEMY } = await import('./academy');
+    for (const l of ACADEMY) {
+      const kinds = l.blocks.map((b) => b.kind);
+      expect(kinds.filter((k) => k === 'example').length, `${l.id} examples`).toBeGreaterThanOrEqual(2);
+      expect(kinds.includes('method'), `${l.id} method`).toBe(true);
+      expect(kinds.includes('summary'), `${l.id} summary`).toBe(true);
+      expect(l.check.length, `${l.id} checks`).toBeGreaterThanOrEqual(4);
+    }
+  });
+  it('every wrong option of an academy check question explains why it is wrong', async () => {
+    const { ACADEMY_QUESTIONS } = await import('./academy');
+    for (const q of ACADEMY_QUESTIONS) {
+      if (q.type !== 'Y-1' && q.type !== 'V-Y-1') continue;
+      for (const c of q.choices) if (c.id !== q.answer) expect(c.why, `${q.id} option ${c.id}`).toBeDefined();
+    }
+  });
+  it('prerequisites point to existing lessons', async () => {
+    const { ACADEMY } = await import('./academy');
+    const ids = new Set(ACADEMY.map((l) => l.id));
+    for (const l of ACADEMY) for (const r of l.requires ?? []) expect(ids.has(r), `${l.id} requires ${r}`).toBe(true);
+  });
+});

@@ -145,6 +145,11 @@ export const PSY_ATTENTION = lesson({
       ["Tayanch berish: so'zni bo'g'inlab o'qib, keyin yozish; har satrdan keyin namuna bilan solishtirish.", 'Дать опору: прочитать слово по слогам, затем писать; после каждой строки сверять с образцом.'],
       ["Tekshiruvni bosqichma-bosqich o'quvchiga o'tkazish va muvaffaqiyatni qayd etish.", 'Постепенно передавать проверку ученику и отмечать успехи.'],
     ], ["Natija: xato kamayadi, o'quvchida o'z-o'zini nazorat usuli paydo bo'ladi.", 'Итог: ошибок меньше, у ученика появляется способ самоконтроля.']),
+    B.example(["Matematika darsida o'quvchilar o'qituvchini tinglab, bir vaqtda doskadan ko'chirishga ulgurmayapti. Nima qilish kerak?", 'На уроке математики ученики не успевают одновременно слушать учителя и списывать с доски. Что делать?'], [
+      ["Sabab: diqqatni taqsimlash kichik maktab yoshida hali qiyin.", 'Причина: распределение внимания в младшем школьном возрасте ещё затруднено.'],
+      ["Harakatlarni ajratish: avval tinglash, keyin yozish uchun alohida vaqt berish.", 'Разделить действия: сначала слушаем, потом даём отдельное время на запись.'],
+      ["Doskadagi yozuvni qisqa va tuzilgan qilish (raqamlangan qadamlar).", 'Делать записи на доске краткими и структурированными (пронумерованные шаги).'],
+    ], ["Ikki ishni ketma-ket qilish", 'Выполнять два действия последовательно']),
     B.mistake(null, [
       ["Doimiy tanbeh «Diqqatli bo'l!» — usul bermaydi, xavotirni oshiradi.", 'Постоянное «Будь внимателен!» — не даёт способа и повышает тревожность.'],
       ["Uzoq bir xil topshiriqlar.", 'Длинные однообразные задания.'],
@@ -229,6 +234,11 @@ export const READ_THEME = lesson({
       ["Mavzu: yangi o'quvchiga munosabat. Asosiy fikr: yaxshilik ko'rgan odam uni boshqalarga ham ulashadi.", 'Тема: отношение к новичку. Основная мысль: тот, кому сделали добро, передаёт его другим.'],
       ["Tekshirish: fikr butun matnga mos keladi (bir epizodga emas).", 'Проверка: мысль подходит ко всему тексту, а не к одному эпизоду.'],
     ]),
+    B.example(["«Chumoli kuni bilan don tashidi. Ninachi esa o'ynab yurdi. Qish kelganda chumolining uyida ovqat bor edi, ninachi esa och qoldi.» Mavzu va asosiy fikrni aniqlang.", '«Муравей весь день носил зёрна. А стрекоза играла. Когда пришла зима, у муравья была еда, а стрекоза осталась голодной». Определите тему и основную мысль.'], [
+      ["Mavzu: mehnat va dangasalik (qishga tayyorgarlik).", 'Тема: труд и лень (подготовка к зиме).'],
+      ["Qahramonlarni solishtiramiz: biri mehnat qildi — natija oldi, ikkinchisi o'ynadi — och qoldi.", 'Сравниваем героев: один трудился — получил результат, другая играла — осталась голодной.'],
+      ["Asosiy fikr: oldindan qilingan mehnat qiyin paytda qutqaradi.", 'Основная мысль: труд заранее выручает в трудное время.'],
+    ], ["Mavzu — mehnat; asosiy fikr — mehnat kelajak uchun kerak", 'Тема — труд; основная мысль — труд нужен для будущего']),
     B.mistake(null, [
       ["Asosiy fikr o'rniga syujetni qayta hikoya qilish («Aziz maktabga keldi, keyin…»).", 'Пересказ сюжета вместо идеи («Азиз пришёл в школу, потом…»).'],
       ["Juda umumiy fikr («Do'stlik yaxshi») yoki faqat bir qismga tegishli fikr.", 'Слишком общая мысль («Дружба — это хорошо») или мысль только об одной части.'],
@@ -279,6 +289,10 @@ export const READ_THEME = lesson({
         [["Matndagi so'zlarni sanash", 'Посчитать слова в тексте'], ["Mazmunga aloqasi yo'q.", 'Не связано с содержанием.']],
         [["Matnni ko'chirib yozish", 'Переписать текст'], ['Mexanik ish.', 'Механическая работа.']],
       ], 'B', ["Tanlov va asoslash — talqinni rivojlantiradi.", 'Выбор и обоснование развивают интерпретацию.']),
+    cq('a-r-ti-c4', '1.4.2', { ...RM, rule: ["Asosiy fikr — to'liq gap, butun matnga mos.", 'Основная мысль — полное предложение, подходящее ко всему тексту.'] },
+      ["Chumoli va ninachi haqidagi matnning asosiy fikri qaysi?", 'Какова основная мысль текста о муравье и стрекозе?'],
+      [[["Oldindan qilingan mehnat qiyin paytda qutqaradi", 'Труд заранее выручает в трудное время']], [["Chumoli va ninachi", 'Муравей и стрекоза'], ["Bu qahramonlar, fikr emas.", 'Это герои, а не мысль.']], [["Qishda sovuq bo'ladi", 'Зимой холодно'], ["Bu tafsilot.", 'Это деталь.']], [["Ninachi o'ynadi", 'Стрекоза играла'], ["Bu syujet qismi.", 'Это часть сюжета.']]],
+      'A', ["Qahramonlarni solishtirish g'oyani ochadi.", 'Сравнение героев раскрывает идею.']),
   ],
 });
 

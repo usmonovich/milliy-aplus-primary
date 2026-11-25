@@ -124,6 +124,16 @@ export const UZ_OT = lesson({
       "-ga — jo'nalish kelishigi qo'shimchasi.",
       "Gapdagi vazifasi: to'ldiruvchi.",
     ], "daraxtlarga — turdosh ot, ko'plikda, jo'nalish kelishigida"),
+    B.example("«Ukamning kitobini oldim» gapidagi otlarni tahlil qiling.", [
+      "ukamning: uka — o'zak, -m — I shaxs birlik egalik, -ning — qaratqich kelishigi (kimning?).",
+      "kitobini: kitob — o'zak, -i — III shaxs egalik, -ni — tushum kelishigi (nimani?).",
+      "Qaratqich va tushum qo'shimchalarini so'roq farqlaydi: kimning? — kimni?",
+    ], "ukamning — qaratqich, kitobini — tushum kelishigi"),
+    B.example("«Terak», «qishloq», «tog'» so'zlariga jo'nalish kelishigi qo'shimchasini qo'shing.", [
+      "terak — k bilan tugaydi → -ka: terakka.",
+      "qishloq — q bilan tugaydi → -qa: qishloqqa.",
+      "tog' — g' bilan tugaydi → -qa: tog'qa.",
+    ], "terakka, qishloqqa, tog'qa"),
     B.exception(null, [
       "O'zbek tilida otlarda **rod (jins) kategoriyasi yo'q** — rus tilidan farqli ravishda.",
       "-ga qo'shimchasi k, g bilan tugagan so'zlarga **-ka** (terakka, bargka), q, g' bilan tugagan so'zlarga **-qa** (qishloqqa, bog'qa) shaklida qo'shiladi.",

@@ -8,7 +8,11 @@ Every check question explains each wrong option, the rule, the step-by-step solu
 Language courses are written separately for uz and ru (not translated). Math, pedagogy, psychology and reading have
 equal content in both languages.
 
-## Ready now (29 lessons)
+## Ready now (33 lessons)
+Batch 3 (v0.5): reading literacy — explicit information (PIRLS 1), straightforward inferences (PIRLS 2),
+subtext and interpretation, cause and effect. Original texts; every answer shows the sentence that proves it.
+Quality pass: missing worked examples added to «Имя существительное», «Ot so'z turkumi», «Тема и основная мысль», «Внимание».
+
 Batch 2 (2026-11-25): math foundations — place value; number systems and Roman numerals; addition and subtraction;
 multiplication and division; properties of operations; units of length and mass; perimeter; word problems.
 Pedagogy — basic concepts; didactic principles; lesson goals (Bloom, SMART); lesson types and structure.
@@ -17,12 +21,12 @@ Russian — vowels and consonants (hard/soft, voiced/voiceless); stress and unst
 Uzbek — unli va undoshlar; bo'g'in, ko'chirish va urg'u; so'z tarkibi (o'zak va qo'shimchalar).
 
 ## Continuation point (next batch, in this order)
-1. Reading literacy: explicit information (PIRLS 1); straightforward inferences (PIRLS 2); cause and effect; characters.
-2. Math: equations; division with remainder and divisibility; fraction comparison and operations; time units; volume; Venn and logic.
-3. Russian: noun cases and declension (after «Имя существительное»); adjective; verb; paired consonants; ь and ъ.
-4. Uzbek: sifat; son; fe'l va uning kategoriyalari; imlo: qo'shimchalar imlosi; gap bo'laklari.
-5. Pedagogy: teaching methods; forms of organisation; differentiation; criterion assessment and rubrics; classroom management.
-6. Psychology: thinking; imagination; emotions and SEL; motivation; temperament; adaptation.
+1. Reading literacy (remaining 4 of the v0.5 brief): characters; author's position and fact vs opinion; literary vs informational text; PIRLS basics.
+2. Math: equations from zero; unknown components; divisibility and its tests; comparing fractions; operations with fractions; time units; motion (speed, time, distance).
+3. Russian: animate/inanimate; gender; number; cases; declension; adjective.
+4. Uzbek: otlarning grammatik xususiyatlari; egalik; kelishiklar; sifat; son; fe'l. Verify j / g' notes in «Unli va undosh tovushlar» against Qosimova et al.
+5. Pedagogy: teaching methods; verbal; visual; practical; problem-based; differentiated instruction.
+6. Psychology: thinking; perception; imagination; motivation; emotions; individual differences.
 Each lesson has an internal stage (Foundation → A+), soft prerequisites, module checks and a course final test.
 
 Batch 1:
@@ -67,3 +71,10 @@ conflicts, psychological safety, peer relations.
 
 ## Quality status
 All lessons and items are `auto_checked` (automated audit + author re-check). None is expert-reviewed yet.
+
+## Audit (automated, `npm test`, 54 tests)
+- Near-duplicate stems across all hand-written items (also catches bare-arithmetic stems).
+- Independent re-solve of variant-2 math answers.
+- Every lesson: ≥ 2 worked examples, a teaching-method part, a summary, ≥ 4 check questions; prerequisites exist.
+- Every wrong option of every lesson question explains why it is wrong.
+Not automated yet: semantic duplicates with different wording, repeated number patterns, source-level fact checks.
