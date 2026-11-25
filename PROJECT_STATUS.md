@@ -6,7 +6,9 @@
   fractions; time; motion). 13 older lessons upgraded to ≥ 3 examples, a «try» task and ≥ 5 checks.
 - Audit: stricter lesson standard, semantic-duplicate check (same code + same numbers), independent re-solve of the new
   numeric answers (57 tests).
-- Academy total: 45 lessons. Continuation point: CURRICULUM.md.
+- v0.6.1: 12 language lessons — Russian (animate, gender, number, cases, declension, adjective) and Uzbek (ot
+  kategoriyalari, egalik, kelishik, sifat, son, fe'l), written separately in each language; all sequential with prerequisites.
+- Academy total: 57 lessons. Continuation point: CURRICULUM.md.
 
 ## New in v0.5
 - 4 reading-literacy lessons with original texts and evidence-based answers; 21 new check questions.

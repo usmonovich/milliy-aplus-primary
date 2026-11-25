@@ -12,11 +12,13 @@ import { UZ2_LESSONS } from './uz2';
 import { READ2_LESSONS } from './read2';
 import { READ3_LESSONS } from './read3';
 import { MATH3_LESSONS } from './math3';
+import { RU3_LESSONS } from './ru3';
+import { UZ3_LESSONS } from './uz3';
 
 export { COURSES, MODULES };
 
 const ALL: RichLesson[] = [...UZ_LESSONS, ...RU_LESSONS, ...SHARED_LESSONS, ...MATH2_LESSONS, ...MATH_LESSONS, ...PED2_LESSONS, ...RU2_LESSONS, ...UZ2_LESSONS, ...READ2_LESSONS,
-  ...READ3_LESSONS, ...MATH3_LESSONS];
+  ...READ3_LESSONS, ...MATH3_LESSONS, ...RU3_LESSONS, ...UZ3_LESSONS];
 const STAGES = ['F', 'C', 'C+', 'B', 'B+', 'A', 'A+'];
 const modIdx = (l: RichLesson) => MODULES.findIndex((m) => m.id === l.module);
 /** Study order: module order, then internal stage, then authoring order. */

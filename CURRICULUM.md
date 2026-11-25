@@ -8,7 +8,14 @@ Every check question explains each wrong option, the rule, the step-by-step solu
 Language courses are written separately for uz and ru (not translated). Math, pedagogy, psychology and reading have
 equal content in both languages.
 
-## Ready now (45 lessons)
+## Ready now (57 lessons)
+Batch 5 (v0.6.1): Russian (written in Russian) — animate/inanimate (with the accusative-plural test); gender (общий род,
+ь after sibilants); number (singular/plural-only nouns, plural norms); six cases (helper words, prepositions, telling
+И.п./В.п. and Р.п./В.п. apart); three declensions and unstressed case endings (model words, -ия/-ий/-ие); the adjective.
+Uzbek (written in Uzbek) — otning grammatik kategoriyalari (qo'shimchalar tartibi); egalik (k → g, q → g', unli tushishi);
+kelishiklar (-ka/-qa imlosi, belgisiz qaratqich/tushum); sifat (turlari, darajalari); son (turlari, imlosi); fe'l (zamon,
+shaxs-son, bo'lishsiz -ma).
+
 Batch 4 (v0.6.0): reading — characters (traits from actions, speech, reactions); author's position, fact vs opinion;
 literary vs informational texts; PIRLS basics (4 processes, 2 purposes, item formats, answer algorithm).
 Math — equations from zero; unknown components of the four operations; divisibility (multiples, divisors, primes);
@@ -31,8 +38,8 @@ Uzbek — unli va undoshlar; bo'g'in, ko'chirish va urg'u; so'z tarkibi (o'zak v
 
 ## Continuation point (next batch, in this order)
 1. (done in v0.6.0) Reading literacy 4 lessons; math 8 lessons.
-2. Russian: animate/inanimate; gender; number; cases; declension; adjective.
-3. Uzbek: otlarning grammatik xususiyatlari; egalik; kelishiklar; sifat; son; fe'l. Verify j / g' notes in «Unli va undosh tovushlar» against Qosimova et al.
+2. (done in v0.6.1) Russian 6 lessons; Uzbek 6 lessons.
+3. Still open from earlier notes: Verify j / g' notes in «Unli va undosh tovushlar» against Qosimova et al.
 4. Pedagogy: teaching methods; verbal; visual; practical; problem-based; differentiated instruction.
 5. Psychology: thinking; perception; imagination; motivation; emotions; individual differences.
 Each lesson has an internal stage (Foundation → A+), soft prerequisites, module checks and a course final test.
