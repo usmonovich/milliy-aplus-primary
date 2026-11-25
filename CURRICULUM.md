@@ -8,7 +8,16 @@ Every check question explains each wrong option, the rule, the step-by-step solu
 Language courses are written separately for uz and ru (not translated). Math, pedagogy, psychology and reading have
 equal content in both languages.
 
-## Ready now (57 lessons)
+## Ready now (69 lessons)
+Batch 6 (v0.6.2): pedagogy — teaching methods (definition, classifications by source / Lerner–Skatkin / Babansky,
+selection criteria); verbal methods (story, explanation, heuristic conversation, wait time); visual methods (illustration vs
+demonstration, object → picture → scheme → sign); practical methods (exercise types, distributed practice, experiment,
+didactic game); problem-based learning (problem situation, levels); differentiated instruction (content/process/product,
+scaffolding, flexible groups). Psychology — thinking (types, operations, concrete operations); perception and observation;
+imagination (reproductive vs creative); learning motivation (self-determination theory, praise of process, reward caveat);
+emotions and self-regulation (anxiety and learning); individual differences (temperament as a model, no labels, left-handers,
+learning-styles myth).
+
 Batch 5 (v0.6.1): Russian (written in Russian) — animate/inanimate (with the accusative-plural test); gender (общий род,
 ь after sibilants); number (singular/plural-only nouns, plural norms); six cases (helper words, prepositions, telling
 И.п./В.п. and Р.п./В.п. apart); three declensions and unstressed case endings (model words, -ия/-ий/-ие); the adjective.
@@ -40,8 +49,12 @@ Uzbek — unli va undoshlar; bo'g'in, ko'chirish va urg'u; so'z tarkibi (o'zak v
 1. (done in v0.6.0) Reading literacy 4 lessons; math 8 lessons.
 2. (done in v0.6.1) Russian 6 lessons; Uzbek 6 lessons.
 3. Still open from earlier notes: Verify j / g' notes in «Unli va undosh tovushlar» against Qosimova et al.
-4. Pedagogy: teaching methods; verbal; visual; practical; problem-based; differentiated instruction.
-5. Psychology: thinking; perception; imagination; motivation; emotions; individual differences.
+4. (done in v0.6.2) Pedagogy 6 lessons; psychology 6 lessons. The 36-lesson brief is complete (69 lessons).
+5. Next batch (proposal, in this order): reading — tables and diagrams, critical evaluation, teaching reading; math —
+   decimals, ratio/proportion, volume, combinatorics, data; Russian — глагол (время, лицо, спряжение), местоимение,
+   безударные окончания прилагательных; Uzbek — olmosh, ravish, yordamchi so'zlar, gap bo'laklari; pedagogy — forms of
+   organisation, lesson planning practice, criterion-based assessment and rubrics; psychology — self-esteem, school adaptation,
+   learning difficulties, peer relations. Keep the same lesson standard (≥ 3 examples, «try», method, ≥ 5 checks).
 Each lesson has an internal stage (Foundation → A+), soft prerequisites, module checks and a course final test.
 
 Batch 1:

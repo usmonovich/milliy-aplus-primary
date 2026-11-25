@@ -8,7 +8,10 @@
   numeric answers (57 tests).
 - v0.6.1: 12 language lessons — Russian (animate, gender, number, cases, declension, adjective) and Uzbek (ot
   kategoriyalari, egalik, kelishik, sifat, son, fe'l), written separately in each language; all sequential with prerequisites.
-- Academy total: 57 lessons. Continuation point: CURRICULUM.md.
+- v0.6.2: 12 lessons — pedagogy (teaching methods; verbal; visual; practical; problem-based; differentiated) and
+  psychology (thinking; perception; imagination; motivation; emotions; individual differences). Two new modules.
+- Batch total (v0.6.0–0.6.2): 36 lessons, 183 check questions + 36 «try» tasks, 116 worked examples.
+- Academy total: 69 lessons. Continuation point: CURRICULUM.md.
 
 ## New in v0.5
 - 4 reading-literacy lessons with original texts and evidence-based answers; 21 new check questions.
