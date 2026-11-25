@@ -8,11 +8,21 @@ Every check question explains each wrong option, the rule, the step-by-step solu
 Language courses are written separately for uz and ru (not translated). Math, pedagogy, psychology and reading have
 equal content in both languages.
 
-## Ready now (23 lessons)
+## Ready now (29 lessons)
 Batch 2 (2026-11-25): math foundations — place value; number systems and Roman numerals; addition and subtraction;
 multiplication and division; properties of operations; units of length and mass; perimeter; word problems.
 Pedagogy — basic concepts; didactic principles; lesson goals (Bloom, SMART); lesson types and structure.
 Psychology — primary-school age (leading activity, crisis of 7, school readiness); memory.
+Russian — vowels and consonants (hard/soft, voiced/voiceless); stress and unstressed vowels in the root; word structure.
+Uzbek — unli va undoshlar; bo'g'in, ko'chirish va urg'u; so'z tarkibi (o'zak va qo'shimchalar).
+
+## Continuation point (next batch, in this order)
+1. Reading literacy: explicit information (PIRLS 1); straightforward inferences (PIRLS 2); cause and effect; characters.
+2. Math: equations; division with remainder and divisibility; fraction comparison and operations; time units; volume; Venn and logic.
+3. Russian: noun cases and declension (after «Имя существительное»); adjective; verb; paired consonants; ь and ъ.
+4. Uzbek: sifat; son; fe'l va uning kategoriyalari; imlo: qo'shimchalar imlosi; gap bo'laklari.
+5. Pedagogy: teaching methods; forms of organisation; differentiation; criterion assessment and rubrics; classroom management.
+6. Psychology: thinking; imagination; emotions and SEL; motivation; temperament; adaptation.
 Each lesson has an internal stage (Foundation → A+), soft prerequisites, module checks and a course final test.
 
 Batch 1:

@@ -1,10 +1,10 @@
 # Milliy A+ Primary — Project status (2026-11-25, v0.4)
 
 ## New in v0.4
-- 14 new full lessons (math 8, pedagogy 4, psychology 2), 70 new check questions with per-option explanations.
+- 20 new full lessons (math 8, pedagogy 4, psychology 2, Russian 3, Uzbek 3), 100 new check questions with per-option explanations.
 - Lessons carry internal stages (Foundation → A+) and prerequisites; courses list lessons in study order.
 - Module check after each module and a final course test.
-- Academy total: 23 lessons. Next: reading literacy, Russian and Uzbek foundation lessons.
+- Academy total: 29 lessons. Continuation point: CURRICULUM.md → «Continuation point».
 
 
 ## New in v0.3
