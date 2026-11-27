@@ -82,12 +82,16 @@ describe('question bank integrity', () => {
   it('has no near-duplicate stems among hand-written items', () => {
     const norm = (s: string) => s.toLowerCase().replace(/[^a-zа-яё0-9' ]/gi, '').split(/\s+/).filter((w) => w.length > 3);
     const hw = HAND_WRITTEN;
+    // Same rule as before (Jaccard of stem word sets < 0.6); sets are built once and all collisions are reported together.
+    const sets = hw.map((q) => new Set(norm(q.stem.uz + ' ' + q.stem.ru)));
+    const bad: string[] = [];
     for (let i = 0; i < hw.length; i++) for (let j = i + 1; j < hw.length; j++) {
-      const a = new Set(norm(hw[i].stem.uz + ' ' + hw[i].stem.ru)), b = new Set(norm(hw[j].stem.uz + ' ' + hw[j].stem.ru));
-      const inter = [...a].filter((w) => b.has(w)).length;
+      const a = sets[i], b = sets[j];
+      let inter = 0; for (const w of a) if (b.has(w)) inter++;
       const jac = inter / (a.size + b.size - inter || 1);
-      expect(jac, `${hw[i].id} ~ ${hw[j].id}`).toBeLessThan(0.6);
+      if (jac >= 0.6) bad.push(`${hw[i].id} ~ ${hw[j].id} (${jac.toFixed(2)})`);
     }
+    expect(bad).toEqual([]);
   });
 });
 

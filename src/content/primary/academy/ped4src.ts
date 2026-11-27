@@ -1,4 +1,45 @@
 // Sources added in batch 7 for this course. accessed: true only if the text was actually read (with url and checkedAt).
 import type { Source } from '../../../core/types';
 
-export const PED4_SOURCES: Source[] = [];
+const C = '2026-11-25';
+
+export const PED4_SOURCES: Source[] = [
+  { id: 'ped4-mmtv2025', kind: 'law', accessed: true, checkedAt: C, year: '2025',
+    title: "MMTV vazirining 2025-yil 4-fevraldagi 1-mh-son buyrug'i (ro'yxat raqami 2117-2): «5–9-sinf o'quvchilarining bilimlari sifatini nazorat qilishning reyting tizimi to'g'risidagi nizom»ga o'zgartirishlar (nizom 5–11-sinflarga kengaytirildi; formativ va summativ baholash)",
+    url: 'https://www.lex.uz/pdffile/7362905' },
+  { id: 'ped4-depaul', kind: 'textbook', accessed: true, checkedAt: C, author: 'DePaul University Teaching Commons',
+    title: 'Types of Rubrics (analytic, holistic, developmental rubrics, checklists)',
+    url: 'https://resources.depaul.edu/teaching-commons/teaching-guides/feedback-grading/rubrics/Pages/types-of-rubrics.aspx' },
+  { id: 'ped4-who2020', kind: 'international', accessed: true, checkedAt: C, year: '2020', author: 'Bull F.C., Al-Ansari S.S., Biddle S. et al.',
+    title: 'World Health Organization 2020 guidelines on physical activity and sedentary behaviour (Br J Sports Med 54:1451–1462)',
+    url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC7719906/' },
+  { id: 'ped4-aasm2016', kind: 'international', accessed: true, checkedAt: C, year: '2016', author: 'Paruthi S. et al.',
+    title: 'Recommended Amount of Sleep for Pediatric Populations: A Consensus Statement of the American Academy of Sleep Medicine (J Clin Sleep Med)',
+    url: 'https://depts.washington.edu/dbpeds/pediatricsleepdurationconsensus.pdf' },
+  { id: 'ped4-unicef-online', kind: 'international', accessed: true, checkedAt: C, author: 'UNICEF',
+    title: 'How to keep your child safe online (UNICEF Parenting)', url: 'https://www.unicef.org/parenting/child-care/keep-your-child-safe-online' },
+  { id: 'ped4-sift', kind: 'textbook', accessed: true, checkedAt: C, year: '2019', author: 'Caulfield M.',
+    title: 'SIFT (The Four Moves): Stop, Investigate the source, Find better coverage, Trace claims', url: 'https://hapgood.us/2019/06/19/sift-the-four-moves/' },
+  { id: 'ped4-pblworks', kind: 'textbook', accessed: true, checkedAt: C, author: 'PBLWorks (Buck Institute for Education)',
+    title: 'Gold Standard PBL: Essential Project Design Elements', url: 'https://www.pblworks.org/what-is-pbl/gold-standard-project-design' },
+  { id: 'ped4-jigsaw', kind: 'textbook', accessed: true, checkedAt: C, author: 'Aronson E.',
+    title: 'The Jigsaw Classroom (jigsaw.org): history and steps of the technique', url: 'https://www.jigsaw.org/' },
+  { id: 'ped4-epstein', kind: 'textbook', accessed: true, checkedAt: C, author: 'Epstein J.L. (summary)',
+    title: "Six Types of Parental Involvement (Epstein's framework)", url: 'https://www.mona.uwi.edu/cop/node/401' },
+  { id: 'ped4-uza2026', kind: 'official', accessed: true, checkedAt: C, year: '2026',
+    title: "Mahalla, maktab va ota-onalar hamkorligining zamonaviy modellari tahlil etildi (UzA, Qori Niyoziy nomidagi Tarbiya pedagogikasi milliy instituti konferensiyasi)",
+    url: 'https://uza.uz/ar/posts/mahalla-maktab-va-ota-onalar-hamkorligining-zamonaviy-modellari-tahlil-etildi_823658' },
+  { id: 'ped4-aero', kind: 'international', accessed: true, checkedAt: C, year: '2023', author: 'Australian Education Research Organisation (AERO)',
+    title: 'Classroom management explainer: Establishing and maintaining rules', url: 'https://www.edresearch.edu.au/sites/default/files/2023-12/establishing-and-maintaining-rules-aa.pdf' },
+  { id: 'ped4-chernyaeva', kind: 'textbook', accessed: true, checkedAt: C, author: 'Черняева Т.Н.',
+    title: 'Теория воспитания: краткий курс лекций (методы воспитания, их классификация, условия выбора)', url: 'https://kpfu.ru/portal/docs/F1831782281/Lekcii.teoriya.vospitaniya.pdf' },
+  { id: 'ped4-shakeout', kind: 'international', accessed: true, checkedAt: C, author: 'Great ShakeOut / Earthquake Country Alliance',
+    title: 'Drop, Cover, and Hold On', url: 'https://www.shakeout.org/dropcoverholdon/' },
+  { id: 'ped4-nhs-burns', kind: 'international', accessed: true, checkedAt: C, author: 'NHS (UK)',
+    title: 'Burns and scalds: first aid', url: 'https://www.nhs.uk/conditions/burns-and-scalds/' },
+  { id: 'ped4-nhs-nose', kind: 'international', accessed: true, checkedAt: C, author: 'NHS (UK)',
+    title: 'Nosebleed: how to stop a nosebleed', url: 'https://www.nhs.uk/conditions/nosebleed/' },
+  { id: 'ped4-kun112', kind: 'official', accessed: true, checkedAt: C, year: '2025',
+    title: "Uzbekistan's unified 112 emergency system now fully operational nationwide (Kun.uz, Ministry of Digital Technologies)",
+    url: 'https://kun.uz/en/news/2025/03/25/uzbekistans-unified-112-emergency-system-now-fully-operational-nationwide' },
+];
