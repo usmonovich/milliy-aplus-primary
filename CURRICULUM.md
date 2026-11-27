@@ -8,7 +8,26 @@ Every check question explains each wrong option, the rule, the step-by-step solu
 Language courses are written separately for uz and ru (not translated). Math, pedagogy, psychology and reading have
 equal content in both languages.
 
-## Ready now (69 lessons)
+## Ready now (129 lessons)
+Batch 7 (v0.7.0–0.7.5), 10 lessons per course, chosen by uncovered exam topics:
+Russian — lexical meaning; synonyms/antonyms/homonyms; verb (tense, gender); conjugation and exception verbs; personal
+pronouns; unstressed adjective endings; function words; phrase and sentence types; sentence members and homogeneous
+members; teaching literacy (sound analytic-synthetic method, writing hygiene, dysgraphia).
+Uzbek — leksik ma'no; sinonim/antonim/omonim/paronim; olmosh; ravish; yordamchi so'zlar; qo'shib/ajratib/chiziqcha bilan
+yozish (1995 qoidalar); so'z birikmasi va gap; gap turlari; gap bo'laklari va uyushiq bo'laklar; savod o'rgatish metodikasi.
+Reading — reading-skill qualities and speed check; plot and composition; tale and story; lyric and folklore, expressive
+reading; independent reading; informational text, skimming/scanning; tables and charts; coherent text, plan, essay;
+PIRLS integrate/evaluate and critical reading; teaching reading (before/during/after).
+Math — point, line, ray, segment; angles; circle; solids (faces, edges, vertices); volume and surface; Venn; true/false
+statements and the table method; combinatorics; pigeonhole principle; patterns and sequences.
+Pedagogy — criterion assessment and rubrics; diagnostics and correction; forms of organisation; project learning;
+digital hygiene and media literacy; class climate; family–school–mahalla; moral education; extracurricular work; emergencies.
+Psychology — self-esteem; adaptation; SEL; peer relations and sociometry; conflicts and bullying; psychological safety;
+growth mindset and feedback; fatigue and work capacity; specific learning difficulties; from play to learning activity.
+Worded cautiously (not confirmed in a read source): стелить as I conjugation, -тся/-ться, н- after prepositions; adaptation
+stage durations; work-capacity phases; Elkonin–Davydov details; official reading-speed norms (left out); primary-grade
+assessment point split (left out); Uzbek geometry terms against an official textbook.
+
 Batch 6 (v0.6.2): pedagogy — teaching methods (definition, classifications by source / Lerner–Skatkin / Babansky,
 selection criteria); verbal methods (story, explanation, heuristic conversation, wait time); visual methods (illustration vs
 demonstration, object → picture → scheme → sign); practical methods (exercise types, distributed practice, experiment,
@@ -50,7 +69,12 @@ Uzbek — unli va undoshlar; bo'g'in, ko'chirish va urg'u; so'z tarkibi (o'zak v
 2. (done in v0.6.1) Russian 6 lessons; Uzbek 6 lessons.
 3. Still open from earlier notes: Verify j / g' notes in «Unli va undosh tovushlar» against Qosimova et al.
 4. (done in v0.6.2) Pedagogy 6 lessons; psychology 6 lessons. The 36-lesson brief is complete (69 lessons).
-5. Next batch (proposal, in this order): reading — tables and diagrams, critical evaluation, teaching reading; math —
+5. (done in v0.7) 60 lessons, 10 per course.
+6. Next batch (proposal): math — decimals, ratio/proportion, graphs method, weighing/pouring, matrix method, TIMSS;
+   reading — teaching tasks per grade, text types for PIRLS practice; Russian — orthoepy, punctuation in complex sentences,
+   connected speech, word formation; Uzbek — undalma, kirish so'z, qo'shma gap, nutq madaniyati, orfoepiya; pedagogy — dynamic
+   planning, STEAM, unexpected methodical problems, inclusion; psychology — speech development, ADHD-informed support (no
+   diagnosing), giftedness, teacher burnout. Old proposal kept for reference: reading — tables and diagrams, critical evaluation, teaching reading; math —
    decimals, ratio/proportion, volume, combinatorics, data; Russian — глагол (время, лицо, спряжение), местоимение,
    безударные окончания прилагательных; Uzbek — olmosh, ravish, yordamchi so'zlar, gap bo'laklari; pedagogy — forms of
    organisation, lesson planning practice, criterion-based assessment and rubrics; psychology — self-esteem, school adaptation,
@@ -100,7 +124,7 @@ conflicts, psychological safety, peer relations.
 ## Quality status
 All lessons and items are `auto_checked` (automated audit + author re-check). None is expert-reviewed yet.
 
-## Audit (automated, `npm test`, 57 tests)
+## Audit (automated, `npm test`, 99 tests)
 - Near-duplicate stems across all hand-written items (also catches bare-arithmetic stems).
 - Semantic duplicates in academy questions: same spec code with the same multiset of numbers (≥ 2), or the same answer
   and the same numbers.

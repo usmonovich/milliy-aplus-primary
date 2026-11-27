@@ -1,4 +1,21 @@
-# Milliy A+ Primary — Project status (2026-11-25, v0.6)
+# Milliy A+ Primary — Project status (2026-11-27, v0.7)
+
+## New in v0.7
+- 60 lessons, 10 per course, chosen by the official exam topics that had no lessons yet; written by six parallel course
+  authors in separate files, each course verified alone in a clean copy of the repo and published as its own release:
+  v0.7.0 Russian, v0.7.1 pedagogy, v0.7.2 psychology, v0.7.3 Uzbek, v0.7.4 math, v0.7.5 reading.
+- Batch content: 190 worked examples, 342 check questions + 60 «try» tasks, 71 tables, 26 interactive widgets
+  (angle, possibility tree, box volume, rubric scorer, sociometric matrix, work-capacity curve, sound schemes, plot
+  mountain, charts, reading speed, etc.).
+- New modules: lexis (uz, ru), spelling (uz, ru), syntax (uz, ru), literacy method (uz, ru), literary work and reading skill,
+  informational text and charts, logic and non-standard problems, educational technologies, upbringing and cooperation,
+  personality and psychological safety, learning difficulties.
+- Sources: 108 in the catalog, 69 of them actually read (65 new in v0.7, each with url and check date). Facts that could
+  not be confirmed in a read source are worded cautiously or left out; see CURRICULUM.md.
+- Audit: 99 tests. Per-course test files re-solve every computed/countable answer (combinatorics by enumeration,
+  pigeonhole by exhaustive search, Euler for solids, chart sums, reading speed, sociometry counts, sound/syllable counts,
+  rubric totals) and check uz/ru script separation. The near-duplicate audit is faster (same rule, all collisions listed).
+- Academy total: 129 lessons. Continuation point: CURRICULUM.md.
 
 ## New in v0.6
 - v0.6.0: 12 lessons — reading (characters; author's position, fact/opinion; literary vs informational; PIRLS basics)

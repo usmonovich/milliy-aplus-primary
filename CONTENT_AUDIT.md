@@ -4,7 +4,7 @@
 Every item carries `status`: `draft` → `auto_checked` → `needs_review` → `teacher_reviewed` → `approved`.
 **All current items are `auto_checked`. No item is `teacher_reviewed` or `approved`.** Automated checks are not an expert review.
 
-## Automated checks (`npm test`, 51 tests, run in CI before every deploy)
+## Automated checks (`npm test`, 99 tests, run in CI before every deploy)
 - Unique ids; only official spec codes; exam slot task types match the specification.
 - Choice items: distinct options, valid answer letter; explanations present; sources resolvable.
 - Shared items translated into both languages without script mixing; Uzbek-only and Russian-only section 1 items kept separate.
@@ -14,6 +14,8 @@ Every item carries `status`: `draft` → `auto_checked` → `needs_review` → `
 - **Independent re-solve:** every numeric answer of the variant-2 math items is recomputed in the test from the problem data
   (Roman numerals, divisibility split, remainder, fractions, diagrams, segments, clock angle, diagonals, Venn, combinatorics,
   handshakes, pigeonhole, balance weights, logic grid by brute force, Euler for the pyramid).
+- Academy (v0.6–0.7): every lesson ≥ 3 worked examples, a «try» task, ≥ 5 checks, why-wrong for every option, method and
+  summary; semantic duplicates (same code + same numbers); per-course re-solve of computed and countable answers.
 
 ## Expert review workflow (in the app)
 Settings → "Expert review mode": under every explanation a reviewer sees the item status and marks "Checked" or "Has an issue".
